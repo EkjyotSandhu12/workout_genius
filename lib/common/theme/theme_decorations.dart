@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
-import 'package:workout_genius/common/theme/text_styles.dart';
+import 'text_styles.dart';
 
 //theme decoration class may contain all the decorations, text field decoration, containers decoration which will be reusable or used globally
 class ThemeDecorations {
@@ -55,11 +55,11 @@ class ThemeDecorations {
           Text(hintText),
           Text(
             isRequired ? " *" : "",
-            style: textStyles.textFieldInputText,
+            style: textStyles.textFieldInputTextStyle,
           )
         ],
       ),
-      labelStyle: textStyles.textFieldInputText,
+      labelStyle: textStyles.textFieldInputTextStyle,
       isDense: true,
       contentPadding: EdgeInsets.only(
           left: prefix != null ? 0 : 20,
@@ -67,7 +67,7 @@ class ThemeDecorations {
           bottom: 15,
           right: suffixIcon != null ? 0 : 20),
       // contentPadding: EdgeInsets.all(5),
-      errorStyle: textStyles.textFieldErrorStyle,
+      errorStyle: textStyles.textFieldErrorTextStyle,
       enabledBorder: ThemeDecorations().inputBorder(),
       focusedBorder: ThemeDecorations().inputBorder(),
       disabledBorder: ThemeDecorations().inputBorder(),

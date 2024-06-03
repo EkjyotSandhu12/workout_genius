@@ -1,5 +1,4 @@
-
-import 'package:workout_genius/common/services/screen_properties_service.dart';
+import '../services/screen_properties_service.dart';
 
 import '../theme/theme_constants.dart';
 

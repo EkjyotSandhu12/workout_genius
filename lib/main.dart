@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'common/theme/app_colors.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'common/helpers/initializer.dart';
 import 'common/route/router.dart';
 import 'common/services/screen_properties_service.dart';
-import 'common/theme/app_colors.dart';
 
 main() {
   Initializer.init(() {
@@ -26,7 +26,7 @@ class InitMaterialApp extends StatelessWidget {
           ),
           child: ValueListenableBuilder(
             valueListenable: AppColors().isDarkTheme,
-            builder: (BuildContext context, bool value, Widget? c) => 
+            builder: (BuildContext context, bool value, Widget? c) =>
                 child!,
           ),
         ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import '../theme/theme_constants.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../theme/design_metrics.dart';
-import '../theme/theme_constants.dart';
 
 class ResponsiveFrameworkService {
 //encapsulate any widget inside of this method, and that widget will scale proportionally to ThemeConstants.designScreenWidth

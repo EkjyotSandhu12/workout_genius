@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'loggy_service.dart';
-
 
 class ScreenPropertiesService {
   static final ScreenPropertiesService _singleton =
@@ -21,6 +19,7 @@ class ScreenPropertiesService {
     currentOrientation = mQD.orientation;
     screenHeight = mQD.size.height;
     screenWidth = mQD.size.width;
-    Loggy().traceLog("height:: $screenHeight  width:: $screenWidth", topic: "ScreenUpdated");
+/*    myLog.traceLog("height:: $screenHeight", topic: "ScreenUpdated");
+    myLog.traceLog("width:: $screenWidth", topic: "ScreenUpdated");*/
   }
 }

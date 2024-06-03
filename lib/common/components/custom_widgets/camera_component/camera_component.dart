@@ -1,9 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import '../../services/loggy_service.dart';
-import '../../theme/app_colors.dart';
-import '../../values/global_variables.dart';
-
+import 'package:permission_handler/permission_handler.dart';
+import '../../../app_values/global_variables.dart';
+import '../../../route/route_service.dart';
+import '../../../services/loggy_service.dart';
+import '../../app_widgets/dialogs/show_dialog.dart';
 
 class CameraControllerWrapper {
   CameraControllerWrapper() {
@@ -39,6 +40,7 @@ class CameraControllerWrapper {
 ///as provided, by its parent container widget
 class CameraComponent extends StatefulWidget {
   CameraComponent({super.key, required this.controllerWrapper});
+
   CameraControllerWrapper controllerWrapper;
 
   @override
@@ -66,7 +68,7 @@ class _CameraComponentState extends State<CameraComponent>
       return null;
     try {
       XFile file =
-          await widget.controllerWrapper.cameraController!.takePicture();
+      await widget.controllerWrapper.cameraController!.takePicture();
       return file;
     } catch (e, stacktrace) {
       Loggy().errorLog("Unable to capture image :: $e", stacktrace);
@@ -89,7 +91,7 @@ class _CameraComponentState extends State<CameraComponent>
         isInitializing = false;
       });
     }).catchError(
-      (Object e) {
+          (Object e) {
         if (mounted) {
           setState(() {
             isInitializing = false;
@@ -108,19 +110,23 @@ class _CameraComponentState extends State<CameraComponent>
 
   @override
   Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+
     // App state changed before we got the chance to initialize.
     Loggy().traceLog("didChangeAppLifecycleState $state");
 
-    if (!widget.controllerWrapper.cameraController!.value.isInitialized) {
+    if (!widget.controllerWrapper.cameraController!.value.isInitialized && (await Permission.camera.isDenied)) {
       return;
     }
+
+    Loggy().traceLog("didChangeAppLifecycleState1 $state");
+
 
     if (state == AppLifecycleState.inactive) {
       widget.controllerWrapper.disposeController();
     } else if (state == AppLifecycleState.resumed) {
       Loggy().traceLog(
           'controllerWrapper => ${widget.controllerWrapper.isDisposed}');
-      if (true/*||await Permission.camera.isGranted*/) {
+      if (await Permission.camera.isGranted) {
         widget.controllerWrapper.reassignController();
         initializeCameraController();
       }
@@ -128,17 +134,16 @@ class _CameraComponentState extends State<CameraComponent>
   }
 
   showPermissionDialog() {
-    //navigate user to open settings and grant the permission
-/*    ShowDialog().showSimpleDialog(
+    ShowDialog().showSimpleDialog(
       context,
-      titleText: "Camera Access Denied",
+      title: "Camera Access Denied",
       bodyText: "Camera access is required in order to capture images.",
       buttonText: "Open Settings",
       onButtonTap: () {
         openAppSettings();
-        NavigationService().pop(context);
+        RouteService().pop();
       },
-    );*/
+    );
   }
 
   @override
@@ -148,13 +153,23 @@ class _CameraComponentState extends State<CameraComponent>
   }
 
   cameraWidget() {
-    double scale = widget.controllerWrapper.cameraController!.value.aspectRatio;
-    if (scale < 1) scale = 1 / scale;
-    return Transform.scale(
-      scale: scale,
-      child: Center(
-        child: CameraPreview(widget.controllerWrapper.cameraController!),
-      ),
+    return ClipRect(
+      child: LayoutBuilder(builder: (_, constraints) {
+        double aspectRatio = widget.controllerWrapper.cameraController!.value
+            .aspectRatio; // Get camera preview height
+        //Please note:- this logic is only compatible in parent widget whose 'width' is more than 'height'.
+        final size = Size(constraints.maxHeight, constraints.maxWidth);
+        // calculate scale depending on widget and camera ratios
+        var scale = size.aspectRatio * aspectRatio;
+        // to prevent scaling down, invert the value
+        if (scale < 1) scale = 1 / scale;
+        return Transform.scale(
+          scale: scale,
+          child: Center(
+            child: CameraPreview(widget.controllerWrapper.cameraController!),
+          ),
+        );
+      }),
     );
   }
 
@@ -163,18 +178,17 @@ class _CameraComponentState extends State<CameraComponent>
     Loggy().traceLog('isCapturing $isInitializing');
     return isInitializing
         ? Center(
-            child: CircularProgressIndicator(
-              color: AppColors().primaryColor,
-            ),
-          )
+      child: CircularProgressIndicator(
+      ),
+    )
         : widget.controllerWrapper.cameraController != null &&
-                (widget.controllerWrapper.cameraController!.value
-                        .isInitialized &&
-                    !widget.controllerWrapper.isDisposed)
-            ? cameraWidget()
-            : const SizedBox(
-                height: double.infinity,
-                width: double.infinity,
-              );
+        (widget.controllerWrapper.cameraController!.value
+            .isInitialized &&
+            !widget.controllerWrapper.isDisposed)
+        ? cameraWidget()
+        : const SizedBox(
+      height: double.infinity,
+      width: double.infinity,
+    );
   }
 }

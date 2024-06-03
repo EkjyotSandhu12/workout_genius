@@ -1,40 +1,56 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
-
+import 'dart:typed_data';
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import '../components/app_widgets/custom_circular_loader_widget.dart';
+import '../route/route_service.dart';
+import '../utils/screen_utils.dart';
 import 'package:intl/intl.dart';
-import 'package:workout_genius/common/utils/screen_utils.dart';
 
+enum FileType { pdf, image }
 class Utils {
+
+
+  ///==> WIDGET RELATED
   //we are using timer here as, the keyboard takes time to open.
   static Timer? timer;
-  static ensureVisibleTextField(BuildContext context) {
+  static ensureVisibleTextField(BuildContext context,{int? tries, Duration? eachTryDuration, Duration? scrollSpeed}) {
     if (timer?.isActive ?? false) {
       timer?.cancel();
     }
     timer = Timer.periodic(
-      const Duration(milliseconds: 50),
-      (timer) {
-        if (timer.tick > 20) {
+      eachTryDuration??Duration(milliseconds: 50),
+          (timer) {
+        if (timer.tick > (tries??20)) {
           timer.cancel();
         } else if (ScreenUtils.viewInsetsBottom(context) > 0) {
           Future.delayed(
-            const Duration(milliseconds: 250),
-            () {
+            Duration(milliseconds: 250),
+                () {
               timer.cancel();
             },
           );
         }
         Scrollable.ensureVisible(context,
-            duration: const Duration(milliseconds: 200), alignment: .1);
+            duration: scrollSpeed?? Duration(milliseconds: 200), alignment: .1);
       },
     );
   }
-
+  static bool isFocusing = false;
+  static ensureVisibleOnce(BuildContext context) async {
+    if (isFocusing) return;
+    isFocusing = true;
+    await Scrollable.ensureVisible(context,
+        duration: const Duration(milliseconds: 150), alignment: .5);
+    isFocusing = false;
+  }
   static hideKeyboard() {
-    // Loggy().traceLog("KeyBoard Hide", topic: "hideKeyboard");
+    // myLog.traceLog("KeyBoard Hide", topic: "hideKeyboard");
     FocusManager.instance.primaryFocus?.unfocus();
   }
+
 
   static bool isScrollPositionPastLimit(ScrollController controller,
       {double limitPercentage = 80}) {
@@ -60,6 +76,8 @@ class Utils {
     double x = position.dx;
     return Offset(x, y);
   }
+
+  ///==> LOGIC RELATED
 
   static Future<String?> networkImageToBase64(String imageUrl) async {
 /*    try {
@@ -94,8 +112,6 @@ class Utils {
     return (bytes / 1000000).floor();
   }
 
-
-
   static dateTimeToString(DateTime? dt) {
     if (dt != null) {
       final now = DateTime.now();
@@ -115,6 +131,29 @@ class Utils {
     }
   }
 
+  showDialogUntilConditionIsTrue(BuildContext context,
+      {required bool Function() condition, required String title}) async {
+    if (condition() != true) return;
+    bool isPopped = false;
+    showDialog(
+      context: context,
+      builder: (context) => CustomCircularLoaderWidget(),
+    ).then((value) => isPopped = true);
+
+    while (true) {
+      await Future.delayed(const Duration(milliseconds: 50));
+      if(isPopped){
+        break;
+      }
+      if (condition() != true) {
+        if (!isPopped) {
+          RouteService().pop();
+        }
+        break;
+      }
+    }
+  }
+
   static convertSecondsToMinuteSecond(int seconds) {
     int minute = seconds ~/ 60;
     int secondsInMinute = (seconds - (seconds ~/ 60 * 60)).toInt();
@@ -126,7 +165,6 @@ class Utils {
 
     return extension;
   }
-
 
   static bool isFileVideo({required String filePath}) {
     String extension = filePath.split('.').last.toLowerCase();
@@ -153,6 +191,60 @@ class Utils {
     }
   }
 
+  static String getFileNameFromPath(String filePath) {
+    return filePath.split('/').last;
+  }
+
+  //output => '1st, 2nd and 3rd'
+  static String numberToReadableString(List<int> number) {
+
+
+    if(number.length == 1){
+      return '${addSuffixToNumber(number.first)}';
+    }
+
+    if(number.length == 2){
+      return '${addSuffixToNumber(number.first)} and ${addSuffixToNumber(number[1])}';
+    }
+
+
+    String string = '';
+
+    number.forEach(
+          (num) {
+        if (number.indexOf(num) == number.length - 1) {
+          string += 'and ${addSuffixToNumber(num)}';
+        } else {
+          string +=
+          '${addSuffixToNumber(num)}${number.indexOf(num) > (number.length) ? ' ' : ', '}';
+        }
+      },
+    );
+    return string;
+  }
+
+  //output => '1st'
+  static String addSuffixToNumber(int number) {
+    String suffix;
+
+    // Determine the suffix based on the last digit of the number
+    switch (number % 10) {
+      case 1:
+        suffix = 'st';
+        break;
+      case 2:
+        suffix = 'nd';
+        break;
+      case 3:
+        suffix = 'rd';
+        break;
+      default:
+        suffix = 'th';
+        break;
+    }
+    // Return the number with the appropriate suffix
+    return number.toString() + suffix;
+  }
 
   static bool doesArrayContainsValue(
       {required List<String> array, required String value}) {
@@ -174,15 +266,58 @@ class Utils {
     return false;
   }
 
-  ///==> NUMBERS/MATHS
+  //FILE
+  static FileType? checkFileType(String fileNameWithExtension) {
+    final extension = fileNameWithExtension.split('.').last.toLowerCase();
+    // Loggy().traceLog('extension => $extension');
+    if (extension.toLowerCase().contains('jpg') ||
+        extension.toLowerCase().contains('jpeg') ||
+        extension.toLowerCase().contains('png')) {
+      return FileType.image;
+    } else if (extension.toLowerCase().contains('pdf')) {
+      return FileType.pdf;
+    }
+    return null;
+  }
+
+  static String getFileNameFromFilePath(String filePath) {
+    return filePath.split('/').last;
+  }
+  static Future<Uint8List> fileToUint8List(File file) async {
+    var bytes = await file.readAsBytes();
+    return Uint8List.fromList(bytes);
+  }
+  static mutliDArrayTo2Darray(List multiArray) {
+    List singleArray = [];
+    for (var list1 in multiArray) {
+      for (var list2 in list1) {
+        singleArray.add(list2);
+      }
+    }
+    return singleArray;
+  }
+
+  ///==> NUMBERS/MATHS RELATED
   static int randomInt() {
     return DateTime.now().millisecondsSinceEpoch;
   }
-
   static bool isStringOnlyNumbers(String input) {
     final RegExp regex = RegExp(r'^\d+$');
     return regex.hasMatch(input);
   }
 
 
+  ///==> SPECIFIC PACKAGE RELATED
+  //camera
+  static cameraCapturedImagePreview(
+      {required CameraLensDirection cameraLensDirection,
+        required Widget child}) {
+    return Transform(
+      alignment: Alignment.center,
+      transform: cameraLensDirection == CameraLensDirection.back
+          ? Matrix4.identity()
+          : Matrix4.rotationY(pi),
+      child: child,
+    );
+  }
 }

@@ -7,26 +7,50 @@ class AppColors{
   AppColors._internal();
 
   ///=> Getter methods to fetch colors based on theme
-  Color get appBarColor =>  _primaryColor;
-  Color get secondaryColor => _secondaryColor;
-  Color get textColor => _textColor;
-  Color get textColorRed => _textColorRed;
+  //others
+  Color get getErrorColor => _errorColor;
+
+
+  //buttons
+  Color get getButtonBackgroundColor => _primaryColor;
+  Color get getButtonTextColour => _onPrimaryColor;
+
+  //text field
+  Color get getCursorColor => _onPrimaryColor;
+  Color get getTextFieldBackgroundColor => _accentColor;
+  Color get getTextInputColor => _textColor;
+
+  //background colors
+  Color get getTileBackgroundColor => _backgroundColor;
+  Color get getTileBackgroundColor2 => _tertiaryColor;
+  Color get getDialogBackgroundColor => _backgroundColor;
+
+  //icons colors
+  Color get getIconColor => _iconColor;
+  Color get getIconBackgroundColor => _primaryColor;
+
+  //loaders
+  Color get getLoaderColor => _primaryColor;
+
 
 
   ///==> Define your color variables here
-  final Color _primaryColor = const Color(0xFF213555);
-  final Color _secondaryColor = const Color(0xFFD8C4B6);
-  final Color _secondaryVariant = const Color(0xFFF5EFE7);
+// Primary and Secondary Colors
+  Color _primaryColor = Color(0xffEFBC9B);
+  Color _onPrimaryColor = Colors.white; // Color used on top of primaryColor
+  Color _secondaryColor = Color(0xFFFBF3D5);
+  Color _tertiaryColor = Color(0xff9CAFAA);
 
-  //other colors
-  final Color myRed = const Color(0xFFFF0000);
-  final Color myGreen = const Color(0xFF229A2B);
-  final Color lightGrey = const Color(0xFF9A9A9A);
+// Accent and Highlight Colors
+  Color _accentColor = Color(0xffD6DAC8);
+  Color _errorColor = Colors.red;
 
+// Text Colors
+  Color _textColor = Color(0xFF000000);
 
-  //text colors
-  final Color _textColorRed = const Color(0xFFFF6C6C);
-  final Color _textColor = const Color(0xFFFFFFFF);
+// Background and Icon Colors
+  Color _backgroundColor = Colors.white;
+  Color _iconColor = Colors.white;
 
 
 
@@ -35,12 +59,8 @@ class AppColors{
   //=> Boolean variable to track current theme
   ValueNotifier<bool>  isDarkTheme = ValueNotifier<bool>(false);
   // Method to switch between dark and light themes
-  void switchTheme() {
-    isDarkTheme.value = !isDarkTheme.value;
-  }
-
   // Method to manually set the theme
-  void setDarkTheme(bool isDark) {
+  void setTheme(bool isDark) {
     isDarkTheme.value = isDark;
   }
   

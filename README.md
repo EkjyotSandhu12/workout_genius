@@ -3,7 +3,7 @@
 A new Flutter project.
 
 
-# FLUTTER LATEST SDK => 3.19.2
+# FLUTTER LATEST SDK => 3.19.6
 
 
 # STEPS TO USER AUTO_ROUTE

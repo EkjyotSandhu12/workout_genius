@@ -1,14 +1,28 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:retry/retry.dart';
 import '../../env.dart';
-import '../constants/app_strings.dart';
-import '../helpers/exceptions.dart';
+import '../common_dtos/reponse_dto.dart';
+import '../helpers/network_error_message_helper.dart';
 import '../services/loggy_service.dart';
+import 'api_cancel_token_manager.dart';
 import 'api_constants.dart';
 import 'dio_client.dart';
+
+enum MethodType {
+  get('GET'),
+  post('POST'),
+  put('PUT'),
+  patch('PATCH'),
+  delete("DELETE");
+
+  const MethodType(this.type);
+
+  final String type;
+}
 
 class ApiService {
   static final ApiService _singleton = ApiService._internal();
@@ -17,77 +31,93 @@ class ApiService {
 
   ApiService._internal();
 
-  Future requestApi(
-      {required MethodType method,
-      required String endPoint,
-      Map<String, dynamic>? data,
-      Map<String, dynamic>? header}) async {
+  Future requestGetApi({
+    required String endPoint,
+  }) {
     try {
-      Response response = await retry(
-        maxAttempts: 3,
-        () async => await DioClient().dio.request(
-              getURL(endPoint),
-              data: data,
-              options: Options(method: method.type, headers: header),
-            ),
-        // Retry on SocketException or TimeoutException
-        retryIf: (e) => e is DioException,
+      return _requestApi(
+        endPoint: endPoint,
+        method: MethodType.get,
       );
-
-      if (response.statusCode == 200) {
-        return jsonDecode(response.data);
-      } else {
-        _errorOrInvalidTokenHandler(response: response);
-      }
     } catch (e) {
       rethrow;
     }
   }
 
-  List<String> _authIgnoreEndPoints = [
-    /*ApiConstants.login*/
-  ];
+  Future _requestApi(
+      {required MethodType method,
+      required String endPoint,
+      Map<String, dynamic>? data,
+      Map<String, dynamic>? header}) async {
+    ApiCancelTokenManager apiCancelRequestManager = ApiCancelTokenManager();
+    CancelToken cancelToken = apiCancelRequestManager.createToken(endPoint);
+    late Response response;
+    try {
+      response = await retry(
+          maxAttempts: 3,
+          () async => await DioClient().dio.request(
+                cancelToken: cancelToken,
+                _getURL(endPoint),
+                data: data,
+                options: Options(
+                  method: method.type,
+                  headers: header,
+                ),
+              ),
+          // Retry on SocketException or TimeoutException
+          retryIf: (e) {
+        log(
+          'ERROR retryIf ==> $e',
+        );
+        return e is DioException &&
+            (e.type != DioExceptionType.cancel &&
+                e.type != DioExceptionType.badResponse);
+      });
+      apiCancelRequestManager.removeTokenFromMap(endPoint, cancelToken);
 
-  _errorOrInvalidTokenHandler({
-    required Response response,
-  }) async {
-    Loggy().warningLog("${response.statusCode}",
-        topic: "errorOrInvalidTokenHandler");
-
-    if ((response.statusCode == 403 || response.statusCode == 401) &&
-        !_authIgnoreEndPoints.contains(response.realUri.path)) {
-      throw UnauthorizedException(AppStrings.unauthorized);
+      //this will only enter here is the status code is 2xx. else it will enter catch block
+      ResponseDto responseDto = ResponseDto.fromJson(
+        response.data is String ? jsonDecode(response.data) : response.data,
+      );
+      return responseDto;
+    } catch (e) {
+      throw _errorMessageHandler(error: e);
     }
+  }
 
-    throw "Status Code: ${response.statusCode}\n${response.data}";
+  String _errorMessageHandler({error}) {
+    String errorMessage;
+    if (error is DioException) {
+      errorMessage = NetworkErrorMessageHelper()
+          .dioExceptionStatusMessage(error.type, error.response?.statusCode);
+    } else {
+      errorMessage = "$error";
+    }
+    myLog.errorLog('${errorMessage}', StackTrace.current,
+        topic: '_errorMessageHandler');
+    return errorMessage;
   }
 
   /// Returns full api url(Uri) using the Environment Variable
-  String getURL(String endPoint) {
-    if (kReleaseMode) {
-      Env envVar = ENV().currentEnv;
-      switch (envVar) {
-        case Env.production:
-          Loggy().infoLog('PROD mode', topic: "Environment Mode");
-          Loggy().setLogLevel(Level.error);
-          return "${ApiConstants.prod}$endPoint";
-        case Env.staging:
-          Loggy().infoLog('STAGING mode', topic: "Environment Mode");
-          Loggy().setLogLevel(Level.warning);
-          return ("${ApiConstants.staging}$endPoint");
-        case Env.local:
-          Loggy().infoLog('LOCAL mode', topic: "Environment Mode");
-          Loggy().setLogLevel(Level.all);
-          return ("${ApiConstants.local}$endPoint");
-        default:
-          Loggy().infoLog('LOCAL mode', topic: "Environment Mode");
-          Loggy().setLogLevel(Level.all);
-          return ("${ApiConstants.local}$endPoint");
-      }
-    } else {
-      Loggy().infoLog('debug mode', topic: "Environment Mode");
-      Loggy().setLogLevel(Level.all);
-      return "${ApiConstants.local}$endPoint";
+  String _getURL(String endPoint) {
+    Env envVar = ENV().currentEnv;
+    switch (envVar) {
+      case Env.production:
+        myLog.traceLog('PROD mode', topic: "Environment Mode");
+        myLog.setLogLevel(Level.error);
+        return "${ApiConstants.prod}$endPoint";
+      case Env.staging:
+        myLog.traceLog('STAGING mode', topic: "Environment Mode");
+        myLog.setLogLevel(Level.warning);
+        return ("${ApiConstants.staging}$endPoint");
+      case Env.local:
+        myLog.traceLog('LOCAL mode', topic: "Environment Mode");
+        myLog.setLogLevel(Level.all);
+        return ("${ApiConstants.local}$endPoint");
+      default:
+        myLog.traceLog('LOCAL mode', topic: "Environment Mode");
+        myLog.setLogLevel(Level.all);
+        return ("${ApiConstants.local}$endPoint");
     }
   }
 }
