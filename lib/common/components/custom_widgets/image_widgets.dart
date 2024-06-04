@@ -5,7 +5,7 @@ import '../app_widgets/custom_circular_loader_widget.dart';
 
 class NetworkImageWidget extends StatefulWidget {
   NetworkImageWidget(this.imageUrl,
-      {this.cacheWidth, this.hasImageLoaded, this.loadingWidget});
+      {super.key, this.cacheWidth, this.hasImageLoaded, this.loadingWidget});
 
   final String imageUrl;
   int? cacheWidth;
@@ -39,7 +39,7 @@ class _NetworkImageWidgetState extends State<NetworkImageWidget> {
           progress == null
               ? child
               : widget.loadingWidget ??
-                  Center(
+                  const Center(
                     child: CustomCircularLoaderWidget(),
                   ),
       errorBuilder: (context, error, stackTrace) {
@@ -57,7 +57,7 @@ class _NetworkImageWidgetState extends State<NetworkImageWidget> {
                         reloadKey++;
                       });
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.sync_problem,
                       size: 38,
                     )),
@@ -73,7 +73,7 @@ class _NetworkImageWidgetState extends State<NetworkImageWidget> {
 
 class FileImageWidget extends StatelessWidget {
   FileImageWidget(
-      {this.isAsset = false, required this.imageUrl, this.cacheWidth});
+      {super.key, this.isAsset = false, required this.imageUrl, this.cacheWidth});
 
   final String imageUrl;
   bool isAsset;

@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:auto_route/auto_route.dart';
 
 import 'package:flutter/material.dart';
+import 'package:workout_genius/modules/sessions/sessions_screen.dart';
 import 'route_middleware.dart';
 import 'router.gr.dart';
 import '../services/reponsive_framework_service.dart';
@@ -11,9 +12,7 @@ final appRouter = AppRouter();
 @AutoRouterConfig()
 class AppRouter extends $AppRouter {
   List<String> excludeScaling = [
-    // Login.page.name,
-    // CaptureLicenseDiskPlateView.page.name
-    // VehicleCapturedImageView.page.name
+    // SessionsRoute.page.name
   ];
 
   Route<T> playRouteBuilder<T>(
@@ -47,7 +46,7 @@ class AppRouter extends $AppRouter {
     ///==> Individual/Solo Routes
     customRoute(
       initial: true,
-      page: Module1Route.page,
+      page: SessionsRoute.page,
     ),
   ];
 }

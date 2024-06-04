@@ -16,9 +16,9 @@ class RouteService{
     return appRouter.popForced(data);
   }
 
-  //==> SCREENS NAVIGATIONS
-  customerDetailsSegment1ViewNavigate() async {
-    return await appRouter.push(const Module1Route());
+  //==> SCREENS NAVIGATION
+  sessionScreenNavigate() async {
+    return await appRouter.push(const SessionsRoute());
   }
 
 

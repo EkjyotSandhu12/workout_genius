@@ -9,7 +9,7 @@ class AppColors{
   ///=> Getter methods to fetch colors based on theme
   //others
   Color get getErrorColor => _errorColor;
-
+  Color get getTextColor => _textColor;
 
   //buttons
   Color get getButtonBackgroundColor => _primaryColor;
@@ -21,9 +21,9 @@ class AppColors{
   Color get getTextInputColor => _textColor;
 
   //background colors
-  Color get getTileBackgroundColor => _backgroundColor;
+  Color get getTileBackgroundColor => _primaryColor;
   Color get getTileBackgroundColor2 => _tertiaryColor;
-  Color get getDialogBackgroundColor => _backgroundColor;
+  Color get getDialogBackgroundColor => _scaffoldBackgroundColor;
 
   //icons colors
   Color get getIconColor => _iconColor;
@@ -36,7 +36,7 @@ class AppColors{
 
   ///==> Define your color variables here
 // Primary and Secondary Colors
-  Color _primaryColor = Color(0xffEFBC9B);
+  Color _primaryColor =  Color(0xFFD6EDFF);
   Color _onPrimaryColor = Colors.white; // Color used on top of primaryColor
   Color _secondaryColor = Color(0xFFFBF3D5);
   Color _tertiaryColor = Color(0xff9CAFAA);
@@ -49,7 +49,7 @@ class AppColors{
   Color _textColor = Color(0xFF000000);
 
 // Background and Icon Colors
-  Color _backgroundColor = Colors.white;
+  Color _scaffoldBackgroundColor = Colors.white;
   Color _iconColor = Colors.white;
 
 

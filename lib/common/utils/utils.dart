@@ -4,41 +4,46 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_genius/common/services/loggy_service.dart';
 import '../components/app_widgets/custom_circular_loader_widget.dart';
 import '../route/route_service.dart';
 import '../utils/screen_utils.dart';
 import 'package:intl/intl.dart';
 
 enum FileType { pdf, image }
+
 class Utils {
-
-
   ///==> WIDGET RELATED
   //we are using timer here as, the keyboard takes time to open.
   static Timer? timer;
-  static ensureVisibleTextField(BuildContext context,{int? tries, Duration? eachTryDuration, Duration? scrollSpeed}) {
+
+  static ensureVisibleTextField(BuildContext context,
+      {int? tries, Duration? eachTryDuration, Duration? scrollSpeed}) {
     if (timer?.isActive ?? false) {
       timer?.cancel();
     }
     timer = Timer.periodic(
-      eachTryDuration??Duration(milliseconds: 50),
-          (timer) {
-        if (timer.tick > (tries??20)) {
+      eachTryDuration ?? Duration(milliseconds: 50),
+      (timer) {
+        if (timer.tick > (tries ?? 20)) {
           timer.cancel();
         } else if (ScreenUtils.viewInsetsBottom(context) > 0) {
           Future.delayed(
             Duration(milliseconds: 250),
-                () {
+            () {
               timer.cancel();
             },
           );
         }
         Scrollable.ensureVisible(context,
-            duration: scrollSpeed?? Duration(milliseconds: 200), alignment: .1);
+            duration: scrollSpeed ?? Duration(milliseconds: 200),
+            alignment: .1);
       },
     );
   }
+
   static bool isFocusing = false;
+
   static ensureVisibleOnce(BuildContext context) async {
     if (isFocusing) return;
     isFocusing = true;
@@ -46,11 +51,11 @@ class Utils {
         duration: const Duration(milliseconds: 150), alignment: .5);
     isFocusing = false;
   }
+
   static hideKeyboard() {
     // myLog.traceLog("KeyBoard Hide", topic: "hideKeyboard");
     FocusManager.instance.primaryFocus?.unfocus();
   }
-
 
   static bool isScrollPositionPastLimit(ScrollController controller,
       {double limitPercentage = 80}) {
@@ -142,7 +147,7 @@ class Utils {
 
     while (true) {
       await Future.delayed(const Duration(milliseconds: 50));
-      if(isPopped){
+      if (isPopped) {
         break;
       }
       if (condition() != true) {
@@ -197,26 +202,23 @@ class Utils {
 
   //output => '1st, 2nd and 3rd'
   static String numberToReadableString(List<int> number) {
-
-
-    if(number.length == 1){
+    if (number.length == 1) {
       return '${addSuffixToNumber(number.first)}';
     }
 
-    if(number.length == 2){
+    if (number.length == 2) {
       return '${addSuffixToNumber(number.first)} and ${addSuffixToNumber(number[1])}';
     }
-
 
     String string = '';
 
     number.forEach(
-          (num) {
+      (num) {
         if (number.indexOf(num) == number.length - 1) {
           string += 'and ${addSuffixToNumber(num)}';
         } else {
           string +=
-          '${addSuffixToNumber(num)}${number.indexOf(num) > (number.length) ? ' ' : ', '}';
+              '${addSuffixToNumber(num)}${number.indexOf(num) > (number.length) ? ' ' : ', '}';
         }
       },
     );
@@ -283,10 +285,12 @@ class Utils {
   static String getFileNameFromFilePath(String filePath) {
     return filePath.split('/').last;
   }
+
   static Future<Uint8List> fileToUint8List(File file) async {
     var bytes = await file.readAsBytes();
     return Uint8List.fromList(bytes);
   }
+
   static mutliDArrayTo2Darray(List multiArray) {
     List singleArray = [];
     for (var list1 in multiArray) {
@@ -297,21 +301,134 @@ class Utils {
     return singleArray;
   }
 
+  ///==> TEXT FORMAT
+
+  static String formatDurationToHHHHMMMSSS(Duration d) {
+    if (d.inHours <= 0) {
+      if (d.inMinutes <= 0) {
+        return "${d.inSeconds} Seconds";
+      } else {
+        return "${d.inSeconds} Minutes";
+      }
+    } else {
+      return "${d.inHours} Hours ${d.inMinutes} Minutes";
+    }
+  }
+
+  static String formatDurationToHHMM(Duration d) {
+    if (d.inHours <= 0) {
+      return "${d.inMinutes} Minutes";
+    } else {
+      return "${d.inHours}H ${d.inMinutes}M";
+    }
+  }
+
+  //this will return what ever minute is going on eg:-  43:52 =>  43
+  static String formatDurationToMM(Duration d) {
+    if (d.inMinutes > 0) {
+      return "${d.inMinutes.toString().padLeft(2, "0")}";
+    }
+    return "00";
+  }
+
+  //this will return what ever second is going on eg:-  43:52 =>  52
+  static String formatDurationTo60S(Duration d) {
+    int seconds = d.inSeconds;
+
+    if (seconds > 60) {
+      seconds = (seconds % 60).toInt();
+      myLog.traceLog("test seconds $seconds");
+    }
+    if (seconds > 0) {
+      return seconds.toString().padLeft(2, "0");
+    }
+    return "00";
+  }
+
+  //to milliseconds this will return millisecond part of current duration
+  static String formatDurationToms(Duration d) {
+    if (d.inMilliseconds > 0) {
+      return " ${((d.inMilliseconds - (d.inSeconds * 1000)).toString().padLeft(3, "0")).substring(0, 2)}";
+    }
+    return "00";
+  }
+
+  ///==> Number Calculations
+
+  static int getNumberAfterDecimalPoint(
+      {required double number, int lengthOfDecimalPoint = 2}) {
+    // Method 1: Using toString() and split()
+    String numberAsString = number.toString();
+    List<String> splitNumber = numberAsString.split('.');
+
+    // Method 2: Using toStringAsFixed() and substring()
+    int? decimalPointNumber = int.tryParse(splitNumber[1].substring(
+        0,
+        splitNumber[1].toString().length >= lengthOfDecimalPoint
+            ? lengthOfDecimalPoint
+            : splitNumber[1].length));
+/*    log.infoLog(
+      "getNumberAfterDecimalPoint ==> $decimalPointNumber",
+    );*/
+    return decimalPointNumber ?? 0;
+  }
+
+  ///EXAMPLE-----------
+  ///value = 130
+  ///startingRange = 120
+  ///endingRange = 140
+  ///result = 50%
+  //inversePercentage = 70 will be 30
+  static int mapValueTo1_100Range(
+      {required int value,
+      required int startingRange,
+      required int endingRange,
+      bool inversePercentage = false,
+      int start2 = 0,
+      int end2 = 100}) {
+    // Ensure the original value is within the original range
+    // value = value.clamp(startingRange, endingRange);
+
+    // Map the value from the original range to the new range
+    int mappedValue =
+        (((value - startingRange) / (endingRange - startingRange)) *
+                    (end2 - start2) +
+                start2)
+            .toInt()
+            .abs();
+
+    if (inversePercentage) {
+      mappedValue = 100 - mappedValue;
+    }
+
+    return mappedValue.abs();
+  }
+
+  static String addToTextNumber(
+      {required String number, required double addNumber}) {
+    double? numb = double.tryParse(number);
+    if (numb == null) {
+      myLog.warningLog("addToTextNumber: failed to convert string to double");
+      return addNumber.toString();
+    }
+    return (numb += addNumber).toString();
+  }
+
   ///==> NUMBERS/MATHS RELATED
   static int randomInt() {
     return DateTime.now().millisecondsSinceEpoch;
   }
+
   static bool isStringOnlyNumbers(String input) {
     final RegExp regex = RegExp(r'^\d+$');
     return regex.hasMatch(input);
   }
 
-
   ///==> SPECIFIC PACKAGE RELATED
   //camera
   static cameraCapturedImagePreview(
       {required CameraLensDirection cameraLensDirection,
-        required Widget child}) {
+      required Widget child}) {
     return Transform(
       alignment: Alignment.center,
       transform: cameraLensDirection == CameraLensDirection.back

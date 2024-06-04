@@ -8,13 +8,17 @@ class ResponsiveFrameworkService {
 //encapsulate any widget inside of this method, and that widget will scale proportionally to ThemeConstants.designScreenWidth
   globalResponsive(BuildContext context, {required Widget child}) {
     return ResponsiveScaledBox(
-      width: ResponsiveValue<double>(context, conditionalValues: [
-        //Scale:- the application will scale and maintain ratio of designScreenWidth pixels in any resolution by scaling.
-        Condition.largerThan(
-          breakpoint: 0,
-          value: ThemeConstants.designScreenWidth,
-        ),
-      ]).value,
+      width: ResponsiveValue<double>(
+        context,
+        conditionalValues: [
+          //Scale:- the application will scale and maintain ratio of designScreenWidth pixels in any resolution by scaling.
+          Condition.largerThan(
+            breakpoint: 0,
+            value: ThemeConstants.designScreenWidth,
+          ),
+        ],
+        defaultValue: 0,
+      ).value,
       child: ClampingScrollWrapper.builder(
         dragWithMouse: true,
         context,
