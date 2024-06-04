@@ -33,6 +33,22 @@ class CommonDialogUI extends StatelessWidget {
   Alignment bodyAlignment;
   bool disableBodyAlignment;
 
+  //==> GAPS
+  double get dialogTitleBodyGap => 12;
+  double get dialogBodyFooterGap => 12;
+
+  //==> APP PADDINGS GETTER
+  double get dialogPaddingVer => 22;
+  double get dialogPaddingHor => 22;
+
+
+  //==> APP HEIGHTS GETTER
+  double get dialogHeight => 330;
+
+
+  //==> APP WIDTHS GETTER
+  double get dialogWidth => 330;
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveFrameworkService().globalResponsive(
@@ -54,17 +70,17 @@ class CommonDialogUI extends StatelessWidget {
               ),
               height: makeHeightDynamic
                   ? null
-                  : height ?? DesignMetrics().dialogHeight,
-              width: width ?? DesignMetrics().dialogWidth,
+                  : height ?? dialogHeight,
+              width: width ?? dialogWidth,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   Padding(
                     padding: EdgeInsets.only(
-                      top: DesignMetrics().dialogPaddingVer,
-                      bottom: DesignMetrics().dialogPaddingVer,
-                      left: horPadding ?? DesignMetrics().dialogPaddingHor,
-                      right: horPadding ?? DesignMetrics().dialogPaddingHor,
+                      top: dialogPaddingVer,
+                      bottom: dialogPaddingVer,
+                      left: horPadding ?? dialogPaddingHor,
+                      right: horPadding ?? dialogPaddingHor,
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -73,7 +89,7 @@ class CommonDialogUI extends StatelessWidget {
                       children: [
                         header,
                         SizedBox(
-                          height: DesignMetrics().dialogTitleBodyGap,
+                          height: dialogTitleBodyGap,
                         ),
                         makeHeightDynamic
                             ? Flexible(child: body)
@@ -89,7 +105,7 @@ class CommonDialogUI extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(
-                                height: DesignMetrics().dialogBodyFooterGap,
+                                height: dialogBodyFooterGap,
                               ),
                               footer!,
                             ],

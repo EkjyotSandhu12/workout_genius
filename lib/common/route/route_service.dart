@@ -21,5 +21,10 @@ class RouteService{
     return await appRouter.push(const SessionsRoute());
   }
 
+  //==> SCREENS NAVIGATION
+  sessionExecutionScreenNavigate() async {
+    return await appRouter.push(const SessionExecutionRoute());
+  }
+
 
 }

@@ -48,5 +48,8 @@ class AppRouter extends $AppRouter {
       initial: true,
       page: SessionsRoute.page,
     ),
+    customRoute(
+      page: SessionExecutionRoute.page,
+    ),
   ];
 }

@@ -9,7 +9,7 @@ import '../services/screen_properties_service.dart';
 
 class DesignMetrics {
   ///==> MARGINS/PADDING/HEIGHT/WIDTH DECLARE
-  double _margin6 = 6;
+  double _margin12 = 12;
   ///
   double _padding22 = 22;
   ///
@@ -26,28 +26,11 @@ class DesignMetrics {
   ///
 
   ///==> GETTERS
-  //==> GAPS
-  double get dialogTitleBodyGap => _gap12;
-  double get dialogBodyFooterGap => _gap12;
-
-  //==> ICON SIZE
-  double get iconSize => _size80;
-  double get iconSize2 => _size100;
 
   //==> APP MARGINS GETTER
+  double get getPageMargin  => _padding22;
 
 
-  //==> APP PADDINGS GETTER
-  double get dialogPaddingVer => _padding22;
-  double get dialogPaddingHor => _padding22;
-
-
-  //==> APP HEIGHTS GETTER
-  double get dialogHeight => _height330;
-
-
-  //==> APP WIDTHS GETTER
-  double get dialogWidth => _width300;
 
 
   //==> APP RADIUS GETTER
