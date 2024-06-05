@@ -26,7 +26,7 @@ class SessionsScreen extends StatelessWidget {
                 child: SessionScreenTileUI(
                   sessionDto: session,
                   onTap: () {
-                    RouteService().sessionExecutionScreenNavigate();
+                    RouteService().sessionExecutionScreenNavigate(session);
                   },
                 ),
               );

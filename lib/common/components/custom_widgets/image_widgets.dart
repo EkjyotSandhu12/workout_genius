@@ -61,7 +61,13 @@ class _NetworkImageWidgetState extends State<NetworkImageWidget> {
                       Icons.sync_problem,
                       size: 38,
                     )),
-                Text('$error', textAlign: TextAlign.center),
+                Flexible(
+                  child: Text(
+                    '$error',
+                    textAlign: TextAlign.center,
+                    overflow: TextOverflow.fade,
+                  ),
+                ),
               ],
             ),
           ),
@@ -73,7 +79,10 @@ class _NetworkImageWidgetState extends State<NetworkImageWidget> {
 
 class FileImageWidget extends StatelessWidget {
   FileImageWidget(
-      {super.key, this.isAsset = false, required this.imageUrl, this.cacheWidth});
+      {super.key,
+      this.isAsset = false,
+      required this.imageUrl,
+      this.cacheWidth});
 
   final String imageUrl;
   bool isAsset;

@@ -44,5 +44,5 @@ List<SessionDto> sessions = [
       ],
       sessionName: 'Morning workout session',
       imageUrl:
-          'https://upload.wikimedia.org/wikipedia/commons/c/c4/Official_Photograph_of_Prime_Minister_Narendra_Modi_Portrait.png'),
+          ''),
 ];

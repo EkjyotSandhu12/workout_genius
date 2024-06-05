@@ -1,5 +1,6 @@
 import 'package:workout_genius/common/route/router.dart';
 
+import '../common_dtos/session/session_dto.dart';
 import 'router.gr.dart';
 
 
@@ -22,8 +23,8 @@ class RouteService{
   }
 
   //==> SCREENS NAVIGATION
-  sessionExecutionScreenNavigate() async {
-    return await appRouter.push(const SessionExecutionRoute());
+  sessionExecutionScreenNavigate(SessionDto session) async {
+    return await appRouter.push(SessionExecutionRoute(session:session));
   }
 
 

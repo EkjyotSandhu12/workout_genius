@@ -4,15 +4,21 @@ import '../../theme/app_colors.dart';
 class BtnProperties {
   Size? size;
   double? textSize;
+  Color? backgroundColor;
 
   BtnProperties({
     this.size,
     this.textSize,
+    this.backgroundColor,
   });
 }
 
 class BtnElevated extends StatelessWidget {
-  BtnElevated({super.key, this.btnProperties, required this.onTap, required this.buttonText});
+  BtnElevated(
+      {super.key,
+      this.btnProperties,
+      required this.onTap,
+      required this.buttonText});
 
   final String buttonText;
   BtnProperties? btnProperties;
@@ -25,15 +31,17 @@ class BtnElevated extends StatelessWidget {
         onTap();
       },
       style: ElevatedButton.styleFrom(
-        minimumSize:btnProperties?.size,
+        minimumSize: btnProperties?.size,
         fixedSize: btnProperties?.size,
-        backgroundColor: AppColors().getButtonBackgroundColor,
+        backgroundColor: btnProperties?.backgroundColor ??
+            AppColors().getButtonBackgroundColor,
       ),
       child: Text(
-       buttonText ,
-        style: TextStyle(fontSize: btnProperties?.textSize, color: AppColors().getButtonTextColour),
+        buttonText,
+        style: TextStyle(
+            fontSize: btnProperties?.textSize,
+            color: AppColors().getButtonTextColour),
       ),
-
     );
   }
 }

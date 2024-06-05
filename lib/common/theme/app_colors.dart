@@ -36,21 +36,21 @@ class AppColors{
 
   ///==> Define your color variables here
 // Primary and Secondary Colors
-  Color _primaryColor =  Color(0xFFD6EDFF);
-  Color _onPrimaryColor = Colors.white; // Color used on top of primaryColor
-  Color _secondaryColor = Color(0xFFFBF3D5);
-  Color _tertiaryColor = Color(0xff9CAFAA);
+  final Color _primaryColor =  Color(0xFFD6EDFF);
+  final Color _onPrimaryColor = Colors.white; // Color used on top of primaryColor
+  final Color _secondaryColor = Color(0xFFFBF3D5);
+  final Color _tertiaryColor = Color(0xff9CAFAA);
 
 // Accent and Highlight Colors
-  Color _accentColor = Color(0xffD6DAC8);
-  Color _errorColor = Colors.red;
+  final Color _accentColor = Color(0xffD6DAC8);
+  final Color _errorColor = Colors.red;
 
 // Text Colors
-  Color _textColor = Color(0xFF000000);
+  final Color _textColor = Color(0xFF000000);
 
 // Background and Icon Colors
-  Color _scaffoldBackgroundColor = Colors.white;
-  Color _iconColor = Colors.white;
+  final Color _scaffoldBackgroundColor = Colors.white;
+  final Color _iconColor = Colors.white;
 
 
 
