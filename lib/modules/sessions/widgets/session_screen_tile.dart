@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../../../common/common_dtos/session/session_dto.dart';
@@ -19,6 +21,7 @@ class SessionScreenTileUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('message');
 
     Duration duration =
     Helper.calculateTotalDurationOfTheSession(sessionDto);

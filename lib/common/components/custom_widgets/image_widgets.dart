@@ -130,7 +130,7 @@ frameBuilder(
     BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded,
     {Function(bool)? hasImageLoaded, Widget? loadingWidget}) {
   child = Animate(
-    effects: [FadeEffect()],
+    effects: const [FadeEffect()],
     child: child,
   );
 
@@ -142,7 +142,7 @@ frameBuilder(
       ? child
       : frame == null
           ? loadingWidget ??
-              Center(
+              const Center(
                 child: CustomCircularLoaderWidget(),
               )
           : child;

@@ -9,22 +9,18 @@ class RouteService{
   factory RouteService() => _singleton;
   RouteService._internal();
 
-  maybePop({data}) async {
-    return appRouter.popForced(data);
-  }
+
 
   pop({data}) {
-    return appRouter.popForced(data);
+    return router.pop();
   }
 
   //==> SCREENS NAVIGATION
   sessionScreenNavigate() async {
-    return await appRouter.push(const SessionsRoute());
   }
 
   //==> SCREENS NAVIGATION
   sessionExecutionScreenNavigate(SessionDto session) async {
-    return await appRouter.push(SessionExecutionRoute(session:session));
   }
 
 

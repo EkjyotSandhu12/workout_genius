@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:workout_genius/common/components/app_widgets/buttons.dart';
 import '../../common/common_dtos/session/session_dto.dart';
+import '../../common/components/custom_widgets/rounded_circular_progress_indicator.dart';
 
 @RoutePage()
 class SessionExecutionScreen extends StatelessWidget {
@@ -38,12 +41,19 @@ class SessionExecutionScreen extends StatelessWidget {
       ),
 
 
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-
-          ],
-        ),
+      body: Column(
+        children: [
+          Container(
+            height: 100,
+            width: 100,
+            child: RoundedCircularProgressIndicator(
+              backgroundColor: Colors.red,
+              strokeWidth: 20,
+              strokeColor: Colors.pink,
+              value: .1,
+            ),
+          )
+        ],
       ),
 
     );

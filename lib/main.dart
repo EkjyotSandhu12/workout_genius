@@ -32,7 +32,7 @@ class InitMaterialApp extends StatelessWidget {
         ),
         breakpoints: [],
       ),
-      routerConfig: appRouter.config(),
+      routerConfig: router,
     );
   }
 }

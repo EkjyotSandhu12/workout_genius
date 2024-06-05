@@ -1,55 +1,28 @@
-import 'package:auto_route/annotations.dart';
-import 'package:auto_route/auto_route.dart';
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:workout_genius/modules/sessions/sessions_screen.dart';
-import 'route_middleware.dart';
-import 'router.gr.dart';
-import '../services/reponsive_framework_service.dart';
 
-//read README.md or docs
-final appRouter = AppRouter();
-@AutoRouterConfig()
-class AppRouter extends $AppRouter {
-  List<String> excludeScaling = [
-    // SessionsRoute.page.name
-  ];
+late final GoRouter router;
 
-  Route<T> playRouteBuilder<T>(
-      BuildContext context,
-      Widget child,
-      AutoRoutePage<T> page,
-      ) {
-    return PageRouteBuilder(
-      reverseTransitionDuration: Duration.zero,
-      transitionDuration: Duration.zero,
-      settings: page,
-      pageBuilder: (_, animation, ___) => excludeScaling.contains(page.name)
-          ? child
-          : ResponsiveFrameworkService().globalResponsive(context, child: child),
-    );
-  }
 
-  CustomRoute customRoute<T>(
-      {required PageInfo<dynamic> page, bool initial = false}) =>
-      CustomRoute(
-        guards: [
-          AuthGuard(),
-        ],
-        customRouteBuilder: playRouteBuilder,
-        initial: initial,
-        page: page,
-      );
 
-  @override
-  List<AutoRoute> get routes => [
-    ///==> Individual/Solo Routes
-    customRoute(
-      initial: true,
-      page: SessionsRoute.page,
-    ),
-    customRoute(
-      page: SessionExecutionRoute.page,
-    ),
-  ];
+class Router {
+  /// The route configuration.
+  final GoRouter router = GoRouter(
+
+    routes: <RouteBase>[
+      GoRoute(
+        path: RouteConstants.sessionScreen,
+        builder: (BuildContext context, GoRouterState state) {
+          return const SessionsScreen();
+        },
+      ),
+    ],
+  );
+}
+
+abstract class RouteConstants{
+
+ static String sessionScreen = '/';
+
 }
