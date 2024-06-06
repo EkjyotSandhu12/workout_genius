@@ -13,7 +13,8 @@ class ClickableContainer extends StatelessWidget {
     this.alignment,
     this.transform,
     this.clipBehavior = Clip.none,
-    this.onTap, this.borderRadius,
+    this.onTap,
+    this.borderRadius,
   });
 
   final Widget? child;

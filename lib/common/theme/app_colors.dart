@@ -10,6 +10,7 @@ class AppColors{
   //others
   Color get getErrorColor => _errorColor;
   Color get getTextColor => _textColor;
+  Color get getPrimaryColor => _primaryColor;
 
   //buttons
   Color get getButtonBackgroundColor => _primaryColor;

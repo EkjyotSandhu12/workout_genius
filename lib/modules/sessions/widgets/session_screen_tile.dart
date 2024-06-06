@@ -21,8 +21,6 @@ class SessionScreenTileUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('message');
-
     Duration duration =
     Helper.calculateTotalDurationOfTheSession(sessionDto);
 

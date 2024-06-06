@@ -6,9 +6,11 @@ import 'common/route/router.dart';
 import 'common/services/screen_properties_service.dart';
 
 main() {
-  Initializer.init(() {
-    runApp(const InitMaterialApp());
-  },);
+  Initializer.init(
+    () {
+      runApp(const InitMaterialApp());
+    },
+  );
 }
 
 class InitMaterialApp extends StatelessWidget {
@@ -19,6 +21,16 @@ class InitMaterialApp extends StatelessWidget {
     ScreenPropertiesService().updateScreenProperties(MediaQuery.of(context));
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        //inkwell splash delay fix
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, PageTransitionsBuilder>{
+            TargetPlatform.android: ZoomPageTransitionsBuilder(
+              allowEnterRouteSnapshotting: false,
+            ),
+          },
+        ),
+      ),
       builder: (context, child) => ResponsiveBreakpoints.builder(
         child: MediaQuery(
           data: MediaQuery.of(context).copyWith(
@@ -26,8 +38,7 @@ class InitMaterialApp extends StatelessWidget {
           ),
           child: ValueListenableBuilder(
             valueListenable: AppColors().isDarkTheme,
-            builder: (BuildContext context, bool value, Widget? c) =>
-                child!,
+            builder: (BuildContext context, bool value, Widget? c) => child!,
           ),
         ),
         breakpoints: [],

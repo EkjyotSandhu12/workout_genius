@@ -35,14 +35,10 @@ abstract class WorkoutItem {}
 abstract class SessionItem {}
 
 List<SessionDto> sessions = [
-  SessionDto(
-      sessionExercises: [
-        ExerciseDto(exerciseName: 'exerciseName', workouts: [
-          SetDto(reps: 12, setDuration: const Duration(seconds: 12)),
-          BreakDto(breakDuration: const Duration(seconds: 12)),
-        ])
-      ],
-      sessionName: 'Morning workout session',
-      imageUrl:
-          ''),
+  SessionDto(sessionExercises: [
+    ExerciseDto(exerciseName: 'exerciseName', workouts: [
+      SetDto(reps: 12, setDuration: const Duration(seconds: 120)),
+      BreakDto(breakDuration: const Duration(seconds: 120)),
+    ])
+  ], sessionName: 'Morning workout session', imageUrl: ''),
 ];

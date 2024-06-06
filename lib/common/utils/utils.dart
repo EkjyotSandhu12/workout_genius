@@ -304,14 +304,37 @@ class Utils {
   ///==> TEXT FORMAT
 
   static String formatDurationToHHHHMMMSSS(Duration d) {
-    if (d.inHours <= 0) {
-      if (d.inMinutes <= 0) {
-        return "${d.inSeconds} Seconds";
-      } else {
-        return "${d.inSeconds} Minutes";
+    //output => 1 hour 24 minutes 2 seconds
+    //output => 1 hour 24 minutes
+    //output => 1 hour
+    //output => 24 minutes
+    //output => 2 seconds
+
+    final hours = d.inHours;
+    final remainingMinutes = d.inMinutes % 60;
+    final seconds = d.inSeconds % 60;
+
+    if (hours > 0) {
+      String value = '${d.inHours} hour';
+
+      if (remainingMinutes > 0) {
+        value = '$value $remainingMinutes minutes';
+
+        if (seconds > 0) {
+          value = '$value $seconds seconds';
+        }
       }
+      return value;
+    } else if (remainingMinutes > 0) {
+      String value = '$remainingMinutes minutes';
+
+      if (seconds > 0) {
+        value = '$value $seconds seconds';
+      }
+
+      return value;
     } else {
-      return "${d.inHours} Hours ${d.inMinutes} Minutes";
+      return '$seconds seconds';
     }
   }
 
