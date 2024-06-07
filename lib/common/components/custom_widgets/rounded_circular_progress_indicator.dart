@@ -27,7 +27,7 @@ class _CircularProgress extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     final r =
-    Rect.fromCenter(center: Offset(w / 2, h / 2), width: w, height: h);
+        Rect.fromCenter(center: Offset(w / 2, h / 2), width: w, height: h);
 
     canvas.drawArc(r, math.radians(0), math.radians(360), false, paint1);
     canvas.drawArc(
@@ -39,17 +39,20 @@ class _CircularProgress extends CustomPainter {
 }
 
 class RoundedCircularProgressIndicator extends StatelessWidget {
-  const RoundedCircularProgressIndicator(
-      {super.key,
-        required this.backgroundColor,
-        required this.strokeColor,
-        required this.strokeWidth,
-        required this.value});
+  const RoundedCircularProgressIndicator({
+    super.key,
+    required this.backgroundColor,
+    required this.strokeColor,
+    required this.strokeWidth,
+    required this.value,
+    this.centerWidget,
+  });
 
   final Color backgroundColor;
   final Color strokeColor;
   final double strokeWidth;
   final double value;
+  final Widget? centerWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +62,9 @@ class RoundedCircularProgressIndicator extends StatelessWidget {
         frontColor: strokeColor,
         strokeWidth: strokeWidth,
         value: value,
+      ),
+      child: Center(
+        child: centerWidget,
       ),
     );
   }

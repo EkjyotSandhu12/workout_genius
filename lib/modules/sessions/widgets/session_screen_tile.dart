@@ -53,14 +53,14 @@ class SessionScreenTileUI extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+     /*     Container(
             width: 130,
             height: 130,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(26)),
             child: NetworkImageWidget(sessionDto.imageUrl!),
-          ),
+          ),*/
         ],
       ),
     );

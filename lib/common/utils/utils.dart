@@ -447,6 +447,16 @@ class Utils {
     return regex.hasMatch(input);
   }
 
+  static double calculateRatio(int max, int value) {
+    if (max <= 0) {
+      throw ArgumentError('max value must be positive');
+    }
+    if (value > max) {
+      throw ArgumentError('value must be less than or equal to max');
+    }
+    return (value / max);
+  }
+
   ///==> SPECIFIC PACKAGE RELATED
   //camera
   static cameraCapturedImagePreview(

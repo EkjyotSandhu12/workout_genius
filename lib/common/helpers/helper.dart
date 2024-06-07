@@ -8,13 +8,13 @@ class Helper {
 
     for (var element in session.sessionExercises) {
       if (element is BreakDto) {
-        duration += element.breakDuration;
+        duration += element.breakTotalDuration;
       } else if (element is ExerciseDto) {
         for (var e in element.workouts) {
           if (e is BreakDto) {
-            duration += e.breakDuration;
+            duration += e.breakTotalDuration;
           } else if (e is SetDto) {
-            duration += e.setDuration;
+            duration += e.setTotalDuration;
           }
         }
       }

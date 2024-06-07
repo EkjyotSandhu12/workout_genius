@@ -1,4 +1,5 @@
 class SessionDto {
+  int elapsedMillisecond;
   String sessionName;
   String? imageUrl;
   List<SessionItem> sessionExercises;
@@ -7,6 +8,7 @@ class SessionDto {
     required this.sessionName,
     required this.sessionExercises,
     this.imageUrl,
+    this.elapsedMillisecond = 0,
   });
 }
 
@@ -18,16 +20,23 @@ class ExerciseDto implements SessionItem {
 }
 
 class SetDto implements WorkoutItem {
+  late String parentWorkoutName;
   late int reps;
-  late Duration setDuration;
+  late Duration setTotalDuration;
+  Duration elapsedDuration = Duration.zero;
 
-  SetDto({required this.reps, required this.setDuration});
+  SetDto({
+    required this.setTotalDuration,
+    required this.reps,
+    required this.parentWorkoutName,
+  });
 }
 
 class BreakDto implements WorkoutItem, SessionItem {
-  late Duration breakDuration;
+  late Duration breakTotalDuration;
+  Duration elapsedDuration = Duration.zero;
 
-  BreakDto({required this.breakDuration});
+  BreakDto({required this.breakTotalDuration});
 }
 
 abstract class WorkoutItem {}
@@ -35,10 +44,177 @@ abstract class WorkoutItem {}
 abstract class SessionItem {}
 
 List<SessionDto> sessions = [
-  SessionDto(sessionExercises: [
-    ExerciseDto(exerciseName: 'exerciseName', workouts: [
-      SetDto(reps: 12, setDuration: const Duration(seconds: 120)),
-      BreakDto(breakDuration: const Duration(seconds: 120)),
-    ])
-  ], sessionName: 'Morning workout session', imageUrl: ''),
+  SessionDto(
+    sessionExercises: [
+      ExerciseDto(
+        exerciseName: 'exerciseName',
+        workouts: [
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+          SetDto(
+            reps: 12,
+            setTotalDuration: const Duration(seconds: 120),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(breakTotalDuration: const Duration(seconds: 120)),
+        ],
+      ),
+    ],
+    sessionName: 'Morning workout session',
+    imageUrl: '',
+  ),
 ];
