@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workout_genius/common/components/app_widgets/buttons.dart';
 import 'package:workout_genius/modules/session_exection/bloc/session_execution_bloc.dart';
+import 'package:workout_genius/modules/session_exection/widgets/break_block_ui.dart';
+import 'package:workout_genius/modules/session_exection/widgets/set_block_ui.dart';
 import '../../common/common_dtos/session/session_dto.dart';
 import '../../common/components/custom_widgets/rounded_circular_progress_indicator.dart';
 import '../../common/theme/app_colors.dart';
@@ -28,7 +30,6 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    updateCompletionOfTheSession(widget.session);
     return BlocProvider(
       create: (context) => SessionExecutionBloc(widget.session),
       child: Builder(builder: (context) {
@@ -37,7 +38,7 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
             title: const Text('Session Execution'),
           ),
           floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerFloat,
+              FloatingActionButtonLocation.centerFloat,
           floatingActionButton: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -45,7 +46,7 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
                 onTap: () {
                   context
                       .read<SessionExecutionBloc>()
-                      .add(SessionExecutionResumed());
+                      .add(SessionExecutionResumeClicked());
                 },
                 buttonText: 'Play',
                 btnProperties: BtnProperties(
@@ -60,7 +61,7 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
                 onTap: () {
                   context
                       .read<SessionExecutionBloc>()
-                      .add(SessionExecutionPaused());
+                      .add(SessionExecutionPauseClicked());
                 },
                 buttonText: 'Stop',
                 btnProperties: BtnProperties(
@@ -70,9 +71,7 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
               ),
             ],
           ),
-          body: BlocConsumer<SessionExecutionBloc, SessionExecutionState>(
-            listener: (context, state) {
-            },
+          body: BlocBuilder<SessionExecutionBloc, SessionExecutionState>(
             builder: (context, state) {
               return Container(
                 alignment: Alignment.center,
@@ -80,7 +79,7 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
                   physics: const ClampingScrollPhysics(),
                   children: [
                     ...widget.session.sessionExercises.map(
-                          (sessionItem) {
+                      (sessionItem) {
                         bool isExercise = sessionItem is ExerciseDto;
                         bool isBreak = sessionItem is BreakDto;
                         int totalSets = 0;
@@ -88,11 +87,13 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
                         if (isExercise) {
                           totalSets = sessionItem.workouts.length;
                           return ListView(
+                            cacheExtent: 1,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             children: [
                               ...sessionItem.workouts.map(
-                                    (workoutItem) {
+                                (workoutItem) {
+
                                   bool isSet = workoutItem is SetDto;
                                   bool isBreak = workoutItem is BreakDto;
 
@@ -101,21 +102,21 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
 
                                     return SetBlockUI(
                                       setNo: sessionItem.workouts
-                                          .indexOf(workoutItem) +
+                                              .indexOf(workoutItem) +
                                           1,
                                       totalSets: totalSets,
                                       parentWorkoutName:
-                                      workoutItem.parentWorkoutName,
+                                          workoutItem.parentWorkoutName,
                                       elapsedTime: workoutItem.elapsedDuration,
-                                      totalSetTime: workoutItem
-                                          .setTotalDuration,
+                                      totalSetTime:
+                                          workoutItem.setTotalDuration,
                                     );
                                   }
                                   if (isBreak) {
                                     return BreakBlockUI(
                                       elapsedTime: workoutItem.elapsedDuration,
                                       totalBreakTime:
-                                      workoutItem.breakTotalDuration,
+                                          workoutItem.breakTotalDuration,
                                     );
                                   }
 
@@ -142,162 +143,6 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
           ),
         );
       }),
-    );
-  }
-}
-
-updateCompletionOfTheSession(SessionDto session) {
-  int sessionElapsedMs = session.elapsedMillisecond.toInt();
-  // int sessionElapsedMs = 420000;
-
-  session.sessionExercises.forEach(
-        (sessionItem) {
-      if (sessionItem is ExerciseDto) {
-        sessionItem.workouts.forEach(
-              (workoutItem) {
-            bool isSet = workoutItem is SetDto;
-            bool isBreak = workoutItem is BreakDto;
-
-            if (isSet) {
-              int setInMs = workoutItem.setTotalDuration.inMilliseconds;
-              if (setInMs > sessionElapsedMs) {
-                workoutItem.elapsedDuration =
-                    Duration(milliseconds: sessionElapsedMs);
-                sessionElapsedMs = 0;
-              } else {
-                sessionElapsedMs -= setInMs;
-                workoutItem.elapsedDuration = Duration(milliseconds: setInMs);
-              }
-            }
-
-            if (isBreak) {
-              int breakInMs = workoutItem.breakTotalDuration.inMilliseconds;
-              if (breakInMs > sessionElapsedMs) {
-                workoutItem.elapsedDuration =
-                    Duration(milliseconds: sessionElapsedMs);
-                sessionElapsedMs = 0;
-              } else {
-                sessionElapsedMs -= breakInMs;
-                workoutItem.elapsedDuration = Duration(milliseconds: breakInMs);
-              }
-            }
-          },
-        );
-      }
-
-      if (sessionItem is BreakDto) {
-        int breakInMs = sessionItem.breakTotalDuration.inMilliseconds;
-        if (breakInMs > sessionElapsedMs) {
-          sessionItem.elapsedDuration =
-              Duration(milliseconds: sessionElapsedMs);
-          sessionElapsedMs = 0;
-        } else {
-          sessionElapsedMs -= breakInMs;
-          sessionItem.elapsedDuration = Duration(milliseconds: breakInMs);
-        }
-      }
-    },
-  );
-}
-
-class SetBlockUI extends StatelessWidget {
-  const SetBlockUI({
-    super.key,
-    required this.parentWorkoutName,
-    required this.elapsedTime,
-    required this.totalSetTime,
-    required this.totalSets,
-    required this.setNo,
-  });
-
-  final String parentWorkoutName;
-  final Duration elapsedTime;
-  final Duration totalSetTime;
-  final int totalSets;
-  final int setNo;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(11),
-          height: 140,
-          width: 140,
-          child: RoundedCircularProgressIndicator(
-            centerWidget: Text(
-              '${(totalSetTime - elapsedTime).inMilliseconds}',
-              style: TextStyles().getHeading18Bold,
-            ),
-            backgroundColor: Colors.grey,
-            strokeWidth: 20,
-            strokeColor: AppColors().getPrimaryColor,
-            value: Utils.calculateRatio(
-                totalSetTime.inMilliseconds, elapsedTime.inMilliseconds),
-          ),
-        ),
-        const SizedBox(
-          width: 24,
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              parentWorkoutName,
-              style: TextStyles().getHeading18Bold,
-            ),
-            Text(
-              'Set $setNo of $totalSets',
-              style: TextStyles().getBody14Normal,
-            ),
-          ],
-        )
-      ],
-    );
-  }
-}
-
-class BreakBlockUI extends StatelessWidget {
-  const BreakBlockUI({
-    super.key,
-    required this.elapsedTime,
-    required this.totalBreakTime,
-  });
-
-  final Duration elapsedTime;
-  final Duration totalBreakTime;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(11),
-          height: 140,
-          width: 140,
-          child: RoundedCircularProgressIndicator(
-            centerWidget: Text(
-              '${(totalBreakTime - elapsedTime).inMilliseconds}',
-              style: TextStyles().getHeading18Bold,
-            ),
-            backgroundColor: Colors.grey,
-            strokeWidth: 20,
-            strokeColor: AppColors().getPrimaryColor,
-            value: Utils.calculateRatio(
-                totalBreakTime.inMilliseconds, elapsedTime.inMilliseconds),
-          ),
-        ),
-        const SizedBox(
-          width: 24,
-        ),
-        Text(
-          'Break',
-          style: TextStyles().getHeading18Bold,
-        )
-      ],
     );
   }
 }

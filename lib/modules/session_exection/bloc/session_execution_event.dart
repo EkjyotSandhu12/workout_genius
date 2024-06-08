@@ -2,9 +2,6 @@ part of 'session_execution_bloc.dart';
 
 sealed class SessionExecutionEvent {}
 
-class SessionExecutionStarted extends SessionExecutionEvent{
-
-}
-
-class SessionExecutionResumed extends SessionExecutionEvent{}
-class SessionExecutionPaused extends SessionExecutionEvent{}
+class SessionExecutionResumeClicked extends SessionExecutionEvent{}
+class SessionExecutionStateUpdated extends SessionExecutionEvent{}
+class SessionExecutionPauseClicked extends SessionExecutionEvent{}

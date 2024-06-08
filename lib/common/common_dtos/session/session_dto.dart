@@ -40,7 +40,6 @@ class BreakDto implements WorkoutItem, SessionItem {
 }
 
 abstract class WorkoutItem {}
-
 abstract class SessionItem {}
 
 List<SessionDto> sessions = [

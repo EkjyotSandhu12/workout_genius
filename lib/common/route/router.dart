@@ -5,20 +5,28 @@ import 'package:workout_genius/common/route/route_middleware.dart';
 import 'package:workout_genius/modules/session_exection/session_execution_screen.dart';
 import 'package:workout_genius/modules/sessions/sessions_screen.dart';
 
+import '../services/reponsive_framework_service.dart';
+
+Widget _myRouteBuilder(BuildContext context, GoRouterState state, Widget child) {
+  return ResponsiveFrameworkService().globalResponsive(context, child:  child);
+}
+
 final GoRouter router = GoRouter(
   redirect: RouteMiddleware.routeMiddleware,
   routes: <RouteBase>[
     GoRoute(
       path: RouteConstants.sessionScreen,
-      builder: (BuildContext context, GoRouterState state) {
-        return const SessionsScreen();
-      },
+      builder: (context, state) => _myRouteBuilder(context,
+        state,
+        SessionsScreen(),
+      ),
     ),
     GoRoute(
       path: RouteConstants.sessionExecutionScreen,
-      builder: (BuildContext context, GoRouterState state) {
-        return SessionExecutionScreen(session: state.extra as SessionDto);
-      },
+      builder: (context, state) => _myRouteBuilder(context,
+        state,
+        SessionExecutionScreen(session: state.extra as SessionDto),
+      ),
     ),
   ],
 );
