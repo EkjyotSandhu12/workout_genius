@@ -30,6 +30,11 @@ class InitMaterialApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+            cursorColor: AppColors().getPrimaryColor,
+          selectionColor: AppColors().getPrimaryColor,
+          selectionHandleColor: AppColors().getSecondaryColor,
+        ),
         scaffoldBackgroundColor: AppColors().getScaffoldBackgroundColor,
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors().getScaffoldBackgroundColor,

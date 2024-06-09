@@ -36,12 +36,9 @@ class StopWatchUI extends StatelessWidget {
       height: 260,
       width: 260,
       decoration: BoxDecoration(
-          color: AppColors().getPrimaryColor.withOpacity(.2),
+          color: AppColors().getPrimaryShade1Color,
           shape: BoxShape.circle,
-          boxShadow: [
-            ThemeDecorations().commonContainerBoxShadow()
-          ]
-      ),
+          boxShadow: [ThemeDecorations().commonContainerBoxShadow()]),
       child: RoundedCircularProgressIndicator(
         centerWidget: Row(
           mainAxisSize: MainAxisSize.min,
@@ -49,31 +46,39 @@ class StopWatchUI extends StatelessWidget {
             ...timeValues.map(
               (e) {
                 return Container(
+                  width: 64,
                   alignment: Alignment.center,
-                  margin: const EdgeInsets.symmetric(horizontal: 8),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(text: '${e['number']}'),
-                            if (e['number2'] != null)
-                              TextSpan(
-                                text: '${e['number2']}',
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${e['number']}',
+                            style: TextStyles().getAboretoTextStyle(
+                              fontSize: 36,
+                              height: 1.2,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors().getTextColor,
+                            ),
+                          ),
+                          if (e['number2'] != null)
+                            SizedBox(
+                              width: 14,
+                              child: Text(
+                                '${e['number2']}',
                                 style: TextStyles().getAboretoTextStyle(
                                   fontSize: 16,
+                                  height: 2,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors().getTextColor,
                                 ),
                               ),
-                          ],
-                          style: TextStyles().getAboretoTextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors().getTextColor,
-                          ),
-                        ),
+                            ),
+                        ],
                       ),
                       Text(
                         '${e['type']}',

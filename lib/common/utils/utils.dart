@@ -303,6 +303,41 @@ class Utils {
 
   ///==> TEXT FORMAT
 
+  static String formatDurationToHMS(Duration d) {
+    //output => 1h 24m 2s
+    //output => 1h 24m
+    //output => 1h
+    //output => 24m
+    //output => 2s
+
+    final hours = d.inHours;
+    final remainingMinutes = d.inMinutes % 60;
+    final seconds = d.inSeconds % 60;
+
+    if (hours > 0) {
+      String value = '${d.inHours}h';
+
+      if (remainingMinutes > 0) {
+        value = '$value ${remainingMinutes}m';
+
+        if (seconds > 0) {
+          value = '$value ${seconds}s';
+        }
+      }
+      return value;
+    } else if (remainingMinutes > 0) {
+      String value = '${remainingMinutes}m';
+
+      if (seconds > 0) {
+        value = '$value ${seconds}s';
+      }
+
+      return value;
+    } else {
+      return '${seconds}seconds';
+    }
+  }
+
   static String formatDurationToHHHHMMMSSS(Duration d) {
     //output => 1 hour 24 minutes 2 seconds
     //output => 1 hour 24 minutes

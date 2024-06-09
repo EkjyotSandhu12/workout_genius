@@ -10,6 +10,7 @@ class AppColors{
   ///==> Define your color variables here
 // Primary and Secondary Colors
   final Color getPrimaryColor =  Color(0xFF00ADA1);
+  final Color getPrimaryShade1Color =  Color(0xFFccfffb);
   final Color getOnPrimaryColor = Colors.white; // Color used on top of primaryColor
   final Color getSecondaryColor = Color(0xFF222831);
   final Color getOnSecondaryColor = Color(0xffEEEEEE);

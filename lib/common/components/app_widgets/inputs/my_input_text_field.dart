@@ -83,7 +83,6 @@ class MyInputTextField extends StatelessWidget {
       onTapOutside: (v) {
         Utils.hideKeyboard();
       },
-      cursorColor: AppColors().getPrimaryColor,
       decoration: inputTextFieldInputDecoration(hintText: hintText),
       enableInteractiveSelection: true,
       readOnly: isReadOnly,

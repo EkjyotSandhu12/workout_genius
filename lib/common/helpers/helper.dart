@@ -10,7 +10,7 @@ class Helper {
       if (element is BreakDto) {
         duration += element.breakTotalDuration;
       } else if (element is ExerciseDto) {
-        for (var e in element.workouts) {
+        for (var e in element.items) {
           if (e is BreakDto) {
             duration += e.breakTotalDuration;
           } else if (e is SetDto) {

@@ -85,24 +85,24 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
                         int totalSets = 0;
 
                         if (isExercise) {
-                          totalSets = sessionItem.workouts.length;
+                          totalSets = sessionItem.items.length;
                           return ListView(
                             cacheExtent: 1,
                             shrinkWrap: true,
                             itemExtent: 326,
                             physics: const NeverScrollableScrollPhysics(),
                             children: [
-                              ...sessionItem.workouts.map(
+                              ...sessionItem.items.map(
                                 (workoutItem) {
 
                                   bool isSet = workoutItem is SetDto;
                                   bool isBreak = workoutItem is BreakDto;
 
                                   if (isSet) {
-                                    totalSets = sessionItem.workouts.length;
+                                    totalSets = sessionItem.items.length;
 
                                     return SetBlockUI(
-                                      setNo: sessionItem.workouts
+                                      setNo: sessionItem.items
                                               .indexOf(workoutItem) +
                                           1,
                                       totalSets: totalSets,

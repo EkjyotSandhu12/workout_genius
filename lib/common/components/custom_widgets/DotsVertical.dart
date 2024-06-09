@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class DotsVertical extends StatelessWidget {
   DotsVertical({
     super.key,
-    this.height = 24,
-    this.width = 4.5,
+    this.width= 2.3,
+    this.height= 15,
+    this.gap= 4,
     this.count = 3,
-    this.gap = 6,
   });
 
   double height;
@@ -15,7 +15,7 @@ class DotsVertical extends StatelessWidget {
   int count;
 
   Decoration decoration = BoxDecoration(
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(40),
     color: Colors.black,
   );
 
@@ -29,6 +29,7 @@ class DotsVertical extends StatelessWidget {
             return Column(
               children: [
                 Container(
+
                   decoration: decoration,
                   height: height,
                   width: width,

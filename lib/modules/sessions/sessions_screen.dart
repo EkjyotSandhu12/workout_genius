@@ -4,7 +4,7 @@ import 'package:workout_genius/common/components/custom_widgets/clickable_widget
 import 'package:workout_genius/common/route/route_service.dart';
 import 'package:workout_genius/common/theme/design_metrics.dart';
 import 'package:workout_genius/common/theme/text_styles.dart';
-import 'package:workout_genius/modules/create_session/create_session_bottom_sheet_ui.dart';
+import 'package:workout_genius/modules/create_session/create_session_bottom_sheet.dart';
 import 'package:workout_genius/modules/sessions/widgets/session_screen_tile.dart';
 import '../../common/common_dtos/session/session_dto.dart';
 import '../../common/theme/app_colors.dart';
@@ -14,12 +14,8 @@ class SessionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       extendBody: true,
-
-
       floatingActionButton: CreateSessionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
@@ -65,7 +61,7 @@ class CreateSessionButton extends StatelessWidget {
           enableDrag: false,
           isScrollControlled: true,
           builder: (context) {
-            return const CreateSessionBottomSheetUI();
+            return CreateSessionBottomSheet();
           },
         );
       },

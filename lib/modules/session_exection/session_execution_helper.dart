@@ -9,7 +9,7 @@ class SessionExecutionHelper {
         if (sessionElapsedMs == 0) {
           break;
         }
-        for (var workoutItem in sessionItem.workouts) {
+        for (var workoutItem in sessionItem.items) {
           bool isSet = workoutItem is SetDto;
           bool isBreak = workoutItem is BreakDto;
 

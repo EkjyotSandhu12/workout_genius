@@ -19,8 +19,6 @@ class AppStrings {
   static String repsPerSet = "Reps per set";
   static String reps = "Reps";
   static String set = "Set";
-
-  //hints,labels
   static String inputExercise = 'Push ups/Pull ups/Crunches.....';
 
   ///==> title
@@ -40,6 +38,7 @@ class AppStrings {
   static String addExercise = "Add Exercise";
   static String addSupersetExercise = "Add Superset Exercise";
   static String addBreak = "Add Break";
+  static String add = "Add";
   static String unlockModifications = "Unlock Modifications";
   static String cancel = "Cancel";
 }

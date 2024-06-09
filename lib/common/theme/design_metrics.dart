@@ -17,6 +17,7 @@ class DesignMetrics {
   ///==> Radius
   double _radius12 = 12;
   double _radius14 = 14;
+  double _radius24 = 24;
   //==> Gaps
   double _gap12 = 12;
 
@@ -26,6 +27,7 @@ class DesignMetrics {
   double get getPageMargin  => _margin12;
 
   //==> APP RADIUS GETTER
+  double get getCommonRadius24 => _radius24;
   double get getCommonRadius14 => _radius14;
   double get getDialogRadius12 => _radius12;
 
