@@ -11,53 +11,78 @@ class TextStyles {
 
   AppColors appColors = AppColors();
 
-  ///==> TEXT STYLES GETTERS
-  
-  //headings
-  TextStyle get getHeading18Normal => _getF18TextStyle(fontWeight: FontWeight.w500);
-  TextStyle get getHeading18Bold => _getF18TextStyle(fontWeight: FontWeight.bold);
+  ///==> COMMON TEXT STYLES GETTERS
 
-  
-  //body
-  TextStyle get getBody14Normal => _getF14TextStyle(fontWeight: FontWeight.w500);
+  TextStyle get getAppBarTextStyle => TextStyles()
+      .getRubikTextStyle(fontSize: 22, fontWeight: VFontWeight.normal);
 
-
-
-  
-  //buttons
-  TextStyle get boldButtonTextStyle => _getF18TextStyle(fontWeight: FontWeight.w500);
 
   //input text field
-  TextStyle get textFieldErrorTextStyle => _getF12TextStyle(color: AppColors().getErrorColor);
-  TextStyle get textFieldInputTextStyle => _getF18TextStyle(fontWeight: FontWeight.w500,);
+  TextStyle get getTextFieldErrorTextStyle =>
+      getRubikTextStyle(fontSize: 12, color: AppColors().getErrorColor);
+
+  TextStyle get getTextFieldInputTextStyle => getRubikTextStyle(fontSize: 18, fontWeight: VFontWeight.w300);
 
   //dialog
-  TextStyle get getDialogTitleTextStyle => getHeading18Normal;
-  TextStyle get getDialogBodyTextStyle => _getF15TextStyle(fontWeight: FontWeight.normal);
-  TextStyle get getDialogBody2TextStyle => _getF18TextStyle(fontWeight: FontWeight.normal, color: Colors.white);
+  TextStyle get getDialogTitleTextStyle =>
+      getAboretoTextStyle(fontSize: 18, fontWeight: FontWeight.w500);
+
+  TextStyle get getDialogBodyTextStyle =>
+      getAboretoTextStyle(fontSize: 15, fontWeight: FontWeight.normal);
+
+  TextStyle get getDialogBody2TextStyle => getAboretoTextStyle(
+      fontSize: 18, fontWeight: FontWeight.normal, color: Colors.white);
 
   ///==> Text Styles
-  TextStyle _getF18TextStyle({Color? color, FontWeight? fontWeight}) {
-    return _getTextStyle(fontSize: 18, color: color, fontWeight: fontWeight);
-  }
-  TextStyle _getF15TextStyle({Color? color, FontWeight? fontWeight}) {
-    return _getTextStyle(fontSize: 15, color: color, fontWeight: fontWeight);
-  }
 
-  TextStyle _getF14TextStyle({Color? color, FontWeight? fontWeight}) {
-    return _getTextStyle(fontSize: 14, color: color, fontWeight: fontWeight);
-  }
-
-  TextStyle _getF12TextStyle({Color? color, FontWeight? fontWeight}) {
-    return _getTextStyle(fontSize: 12, color: color, fontWeight: fontWeight);
-  }
-
-  _getTextStyle(
-      {required double fontSize, Color? color, FontWeight? fontWeight}) {
-    TextStyle temp = GoogleFonts.lato(
+  getAboretoTextStyle(
+      {required double fontSize,
+      Color? color,
+      FontWeight? fontWeight,
+      double? height}) {
+    TextStyle temp = GoogleFonts.aboreto(
+        height: height,
         color: color ?? appColors.getTextColor,
         fontSize: fontSize,
         fontWeight: fontWeight ?? FontWeight.normal);
     return temp;
   }
+
+  getRubikTextStyle(
+      {required double fontSize,
+      Color? color,
+      VFontWeight? fontWeight,
+      double? height}) {
+    TextStyle temp = TextStyle(
+      fontFamily: 'Rubik',
+      height: height,
+      color: color ?? appColors.getTextColor,
+      fontSize: fontSize,
+      fontVariations: [
+        FontVariation(
+          'wght',
+          (fontWeight ?? VFontWeight.normal).doubleValue,
+        )
+      ],
+    );
+    return temp;
+  }
+}
+
+enum VFontWeight {
+  w100(100.0),
+  w200(200.0),
+  w300(300.0),
+  w400(400.0),
+  w500(500.0),
+  w600(600.0),
+  w700(700.0),
+  w800(800.0),
+  w900(900.0),
+  bold(700.0),
+  normal(400.0);
+
+  const VFontWeight(this.doubleValue);
+
+  final double doubleValue;
 }

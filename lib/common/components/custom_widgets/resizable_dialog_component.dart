@@ -84,19 +84,19 @@ class _ResizableDialogUIState extends State<ResizableDialogUI> {
             curve: Curves.easeOutQuint,
             height: widget.resizableDialogController.initialHeight,
             width: widget.resizableDialogController.initialWidth,
+            duration: const Duration(
+              milliseconds: 600,
+            ),
             child: AnimatedSwitcher(
               switchInCurve: Curves.easeOutQuint,
               switchOutCurve: Curves.easeOutQuint,
+              duration: const Duration(
+                milliseconds: 800,
+              ),
               child: SizedBox(
                 key: ValueKey(Utils.randomInt()),
                 child: widget.resizableDialogController.initialWidget,
               ),
-              duration: Duration(
-                milliseconds: 800,
-              ),
-            ),
-            duration: Duration(
-              milliseconds: 600,
             ),
           ),
         ),

@@ -1,25 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/design_metrics.dart';
-import '../../utils/utils.dart';
-
 class AnimatedSingleWidgetDropDown extends StatefulWidget {
   const AnimatedSingleWidgetDropDown({
     super.key,
-    required this.dropDownWidget,
-    required this.leadingWidget,
+    required this.widget,
+    required this.title,
     required this.height,
-    this.headerBodyGap,
-    required this.onDropDownClick,
   });
 
   final double height;
-  final Widget dropDownWidget;
-  final Widget leadingWidget;
-  final double? headerBodyGap;
-  final Function(bool) onDropDownClick;
+  final Widget widget;
+  final String title;
 
   @override
   State<AnimatedSingleWidgetDropDown> createState() =>
@@ -35,56 +25,34 @@ class _AnimatedSingleWidgetDropDownState
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        AnimatedContainer(
+        Material(
           key: titleKey,
-          decoration: BoxDecoration(
-            color: Colors.red,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          duration: Duration(
-            milliseconds: 150,
-          ),
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.transparent,
           child: InkWell(
-            borderRadius:
-                BorderRadius.circular(DesignMetrics().commonContainerRadius12),
+            borderRadius: BorderRadius.circular(20),
             onTap: () {
-              setState(() {
-                isOpened = !isOpened;
-                widget.onDropDownClick(isOpened);
-              });
-              if (isOpened)
-                Utils.ensureVisibleTextField(
-                  titleKey.currentState!.context,
-                  tries: 10,
-                  scrollSpeed: Duration(
-                    milliseconds: 200,
-                  ),
-                  eachTryDuration: Duration(
-                    milliseconds: 23,
-                  ),
-                );
+
             },
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 6.0,
-                horizontal: 12,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(child: widget.leadingWidget),
+                  Text(widget.title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16)),
                   SizedBox(
-                    width: 12,
+                    width: 10,
                   ),
                   AnimatedRotation(
                     turns: isOpened ? 0.5 : 0,
-                    duration: const Duration(milliseconds: 300),
+                    duration: const Duration(milliseconds: 400),
                     child: Icon(
                       Icons.arrow_drop_down_circle,
-                      color: AppColors().getIconColor,
                     ),
                   )
                 ],
@@ -92,21 +60,20 @@ class _AnimatedSingleWidgetDropDownState
             ),
           ),
         ),
-        SizedBox(
-          height: widget.headerBodyGap ?? 6,
-        ),
+        /* if (isOpened)*/
+
         AnimatedContainer(
-          alignment: Alignment.topCenter,
           height: isOpened ? widget.height : 0,
           duration: const Duration(milliseconds: 200),
           child: AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 1000),
             reverseDuration: const Duration(milliseconds: 100),
             child: isOpened
                 ? Container(
-                    key: const ValueKey(2),
-                    child: widget.dropDownWidget,
-                  )
+              padding: EdgeInsets.only(
+                  top: 20),
+              key: const ValueKey(2),
+              child: widget.widget,)
                 : const SizedBox(key: ValueKey(1)),
           ),
         ),

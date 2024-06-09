@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:workout_genius/modules/session_exection/widgets/stop_watch_ui.dart';
 
 import '../../../common/components/custom_widgets/rounded_circular_progress_indicator.dart';
 import '../../../common/theme/app_colors.dart';
@@ -23,40 +25,31 @@ class SetBlockUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return Row(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          padding: const EdgeInsets.all(11),
-          height: 140,
-          width: 140,
-          child: RoundedCircularProgressIndicator(
-            centerWidget: Text(
-              '${(totalSetTime - elapsedTime).inMilliseconds}',
-              style: TextStyles().getHeading18Bold,
-            ),
-            backgroundColor: Colors.grey,
-            strokeWidth: 20,
-            strokeColor: AppColors().getPrimaryColor,
-            value: Utils.calculateRatio(
-                totalSetTime.inMilliseconds, elapsedTime.inMilliseconds),
-          ),
+        StopWatchUI(
+          elapsedTime: elapsedTime,
+          totalSetTime: totalSetTime,
         ),
         const SizedBox(
           width: 24,
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               parentWorkoutName,
-              style: TextStyles().getHeading18Bold,
+              style: TextStyles().getAboretoTextStyle(
+                  color: AppColors().getTextColor,
+                  fontSize: 18,fontWeight: FontWeight.bold),
             ),
             Text(
               'Set $setNo of $totalSets',
-              style: TextStyles().getBody14Normal,
+              style: TextStyles().getAboretoTextStyle(
+                color: AppColors().getTextColor,
+                fontSize: 14,),
             ),
           ],
         )
@@ -64,3 +57,4 @@ class SetBlockUI extends StatelessWidget {
     );
   }
 }
+

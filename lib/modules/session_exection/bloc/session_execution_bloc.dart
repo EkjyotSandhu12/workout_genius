@@ -19,9 +19,9 @@ class SessionExecutionBloc
   final SessionDto sessionDto;
 
   SessionExecutionBloc(this.sessionDto) : super(SessionExecutionInitial()) {
-    on<SessionExecutionResumeClicked>(_sessionExecutionResumeClicked);
-    on<SessionExecutionPauseClicked>(_sessionExecutionPauseClicked);
     on<SessionExecutionStateUpdated>(_sessionExecutionStateUpdated);
+    on<SessionExecutionPauseClicked>(_sessionExecutionPauseClicked);
+    on<SessionExecutionResumeClicked>(_sessionExecutionResumeClicked);
   }
 
   FutureOr<void> _sessionExecutionStateUpdated(event, emit) {

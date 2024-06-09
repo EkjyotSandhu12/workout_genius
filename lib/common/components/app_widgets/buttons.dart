@@ -33,14 +33,44 @@ class BtnElevated extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         minimumSize: btnProperties?.size,
         fixedSize: btnProperties?.size,
-        backgroundColor: btnProperties?.backgroundColor ??
-            AppColors().getButtonBackgroundColor,
+        backgroundColor:
+            btnProperties?.backgroundColor ?? AppColors().getPrimaryColor,
       ),
       child: Text(
         buttonText,
         style: TextStyle(
             fontSize: btnProperties?.textSize,
-            color: AppColors().getButtonTextColour),
+            color: AppColors().getOnPrimaryColor),
+      ),
+    );
+  }
+}
+
+class BtnIcon extends StatelessWidget {
+  BtnIcon({
+    super.key,
+    required this.onTap,
+    required this.icon,
+    this.btnProperties,
+  });
+
+  BtnProperties? btnProperties;
+  final Function onTap;
+  final Widget icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        onTap();
+      },
+      icon: icon,
+      style: IconButton.styleFrom(
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+      constraints: BoxConstraints(
+        maxHeight: btnProperties?.size?.height ?? double.infinity,
+        maxWidth: btnProperties?.size?.width ?? double.infinity,
       ),
     );
   }

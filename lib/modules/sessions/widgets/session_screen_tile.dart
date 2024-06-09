@@ -1,7 +1,9 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:workout_genius/common/theme/design_metrics.dart';
+import 'package:workout_genius/common/theme/theme_decorations.dart';
+import 'package:workout_genius/modules/session_exection/widgets/stop_watch_ui.dart';
 
 import '../../../common/common_dtos/session/session_dto.dart';
 import '../../../common/components/custom_widgets/clickable_container.dart';
@@ -10,10 +12,12 @@ import '../../../common/helpers/helper.dart';
 import '../../../common/theme/app_colors.dart';
 import '../../../common/theme/text_styles.dart';
 import '../../../common/utils/utils.dart';
+
 class SessionScreenTileUI extends StatelessWidget {
   const SessionScreenTileUI({
     super.key,
-    required this.sessionDto,required this.onTap,
+    required this.sessionDto,
+    required this.onTap,
   });
 
   final SessionDto sessionDto;
@@ -21,12 +25,12 @@ class SessionScreenTileUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Duration duration =
-    Helper.calculateTotalDurationOfTheSession(sessionDto);
+    Duration totalDuration =
+        Helper.calculateTotalDurationOfTheSession(sessionDto);
 
     return ClickableContainer(
-      color: AppColors().getTileBackgroundColor,
-      borderRadius: BorderRadius.circular(26),
+      color: AppColors().getPrimaryColor,
+      borderRadius: BorderRadius.circular(DesignMetrics().getCommonRadius14),
       onTap: onTap,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,20 +44,26 @@ class SessionScreenTileUI extends StatelessWidget {
                   Text(
                     sessionDto.sessionName,
                     maxLines: 2,
-                    style: TextStyles().getHeading18Bold,
+                    style: TextStyles().getRubikTextStyle(
+                      fontWeight: VFontWeight.w600,
+                      fontSize: 18,
+                      color: AppColors().getOnPrimaryColor
+                    ),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
+
                   Text(
-                    Utils.formatDurationToHHHHMMMSSS(duration),
-                    style: TextStyles().getBody14Normal,
+                    Utils.formatDurationToHHHHMMMSSS(totalDuration),
+                    style: TextStyles().getRubikTextStyle(
+                        fontWeight: VFontWeight.normal,
+                      fontSize: 14,
+                        color: AppColors().getOnPrimaryColor
+                    ),
                   )
                 ],
               ),
             ),
           ),
-     /*     Container(
+          /*     Container(
             width: 130,
             height: 130,
             clipBehavior: Clip.antiAlias,

@@ -24,7 +24,7 @@ class ShowDialog {
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             borderRadius:
-            BorderRadius.circular(DesignMetrics().commonContainerRadius12),
+            BorderRadius.circular(DesignMetrics().getDialogRadius12),
           ),
           child: Text(
             bodyText,

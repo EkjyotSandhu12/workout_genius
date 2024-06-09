@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import 'package:vector_math/vector_math.dart' as math;
+import 'package:workout_genius/common/theme/theme_decorations.dart';
+
+import '../../theme/app_colors.dart';
 
 class _CircularProgress extends CustomPainter {
   const _CircularProgress({
@@ -56,15 +60,19 @@ class RoundedCircularProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      painter: _CircularProgress(
-        backColor: backgroundColor,
-        frontColor: strokeColor,
-        strokeWidth: strokeWidth,
-        value: value,
-      ),
-      child: Center(
-        child: centerWidget,
+    return Container(
+      padding: EdgeInsets.all(11),
+
+      child: CustomPaint(
+        painter: _CircularProgress(
+          backColor: backgroundColor,
+          frontColor: strokeColor,
+          strokeWidth: strokeWidth,
+          value: value,
+        ),
+        child: Center(
+          child: centerWidget,
+        ),
       ),
     );
   }

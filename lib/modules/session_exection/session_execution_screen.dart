@@ -89,6 +89,7 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
                           return ListView(
                             cacheExtent: 1,
                             shrinkWrap: true,
+                            itemExtent: 326,
                             physics: const NeverScrollableScrollPhysics(),
                             children: [
                               ...sessionItem.workouts.map(

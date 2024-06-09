@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'common/theme/app_colors.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'common/helpers/initializer.dart';
 import 'common/route/router.dart';
 import 'common/services/screen_properties_service.dart';
+import 'common/theme/text_styles.dart';
 
 main() {
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      systemNavigationBarColor: AppColors().getScaffoldBackgroundColor,
+    ),
+  );
+
   Initializer.init(
     () {
       runApp(const InitMaterialApp());
@@ -22,6 +30,11 @@ class InitMaterialApp extends StatelessWidget {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        scaffoldBackgroundColor: AppColors().getScaffoldBackgroundColor,
+        appBarTheme: AppBarTheme(
+          backgroundColor: AppColors().getScaffoldBackgroundColor,
+          titleTextStyle: TextStyles().getAppBarTextStyle,
+        ),
         //inkwell splash delay fix
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: <TargetPlatform, PageTransitionsBuilder>{

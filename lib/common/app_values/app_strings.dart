@@ -1,33 +1,45 @@
+class AppStrings {
+  ///==> APP NAME
+  static String appName = "Flexible Workouts";
 
+  ///==> Text Field
+  static String enterYourSessionName = "Enter your session name...";
+  static String enterWorkoutSessionName = "Workout session name";
+  static String enterExerciseName = "Enter exercise name";
+  static String enterSupersetExercisesName = "Enter superset exercises name";
+  static String changeExerciseName = "Change exercise name";
+  static String setsWeight = "Sets weight";
+  static String totalSets = "Total sets";
+  static String eachSetDuration = "Each set duration";
+  static String setDuration = "Set duration";
+  static String eachBreakDuration = "Each break duration";
+  static String breakDuration = "Break duration";
+  static String minutes = "Minutes";
+  static String seconds = "Seconds";
+  static String repsPerSet = "Reps per set";
+  static String reps = "Reps";
+  static String set = "Set";
 
-//variables that will never change over time=
-class AppStrings{
+  //hints,labels
+  static String inputExercise = 'Push ups/Pull ups/Crunches.....';
 
+  ///==> title
+  static String homeAppBarTitle = "Welcome!";
 
-  static String appName = '';
+  ///==> Body
+  static String modifyingValues =
+      'Modifying these value will reset your precise customization';
 
-  //common strings
-  static String pleaseLoginAgain = 'please login again';
-
-  //text field hints
-  static String enterYourPetsName =   "Enter your pet\'s name...";
-
-  //button strings
-  static String capture =   "Capture";
-  static String continue_ =   "Continue";
-  static String close =   "Close";
-
-  //titles or headings
-  static String foundYourPet =   "Found your pet!";
-  static String failedToFindYourPet =   "Failed to find your pet!";
-  static String successfullyAddedYourPet =   "Successfully added your pet!";
-  static String findingYourPet =   "Finding your pet...";
-  static String addingYourPet =   "Adding your pet...";
-
-
-
-  //Errors
-  static String unauthorized = 'Your session has expired, $pleaseLoginAgain';
-  static String failedToUploadYourPet = 'Failed to upload your pet';
-
+  ///==> Buttons Text
+  static String startSession = "Start Session";
+  static String showAdvanceCustomization = "Show advance customization";
+  static String preciseCustomization = "Precise Customization";
+  static String addWorkouts = "Add Workouts";
+  static String addMore = "Add more";
+  static String createWorkoutSession = "Create workout session";
+  static String addExercise = "Add Exercise";
+  static String addSupersetExercise = "Add Superset Exercise";
+  static String addBreak = "Add Break";
+  static String unlockModifications = "Unlock Modifications";
+  static String cancel = "Cancel";
 }

@@ -338,42 +338,30 @@ class Utils {
     }
   }
 
-  static String formatDurationToHHMM(Duration d) {
-    if (d.inHours <= 0) {
-      return "${d.inMinutes} Minutes";
-    } else {
-      return "${d.inHours}H ${d.inMinutes}M";
+  //this will return what ever minute is going on eg:-  43:52 =>  43
+  static String? formatDurationToHH(Duration d) {
+    if (d.inHours > 0) {
+      return "${d.inHours % 60}".padLeft(2,'0');
     }
+    return null;
   }
 
   //this will return what ever minute is going on eg:-  43:52 =>  43
-  static String formatDurationToMM(Duration d) {
+  static String? formatDurationToMM(Duration d) {
     if (d.inMinutes > 0) {
-      return "${d.inMinutes.toString().padLeft(2, "0")}";
+      return (d.inMinutes % 60).toString().padLeft(2, "0");
     }
-    return "00";
+    return null;
   }
 
   //this will return what ever second is going on eg:-  43:52 =>  52
   static String formatDurationTo60S(Duration d) {
-    int seconds = d.inSeconds;
-
-    if (seconds > 60) {
-      seconds = (seconds % 60).toInt();
-      myLog.traceLog("test seconds $seconds");
-    }
-    if (seconds > 0) {
-      return seconds.toString().padLeft(2, "0");
-    }
-    return "00";
+    return (d.inSeconds % 60).toString().padLeft(2, "0");
   }
 
   //to milliseconds this will return millisecond part of current duration
   static String formatDurationToms(Duration d) {
-    if (d.inMilliseconds > 0) {
-      return " ${((d.inMilliseconds - (d.inSeconds * 1000)).toString().padLeft(3, "0")).substring(0, 2)}";
-    }
-    return "00";
+    return "${(d.inMilliseconds % 1000).toString().substring(0, 1)}";
   }
 
   ///==> Number Calculations

@@ -1,41 +1,33 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import '../services/screen_properties_service.dart';
 
 //This will contain all sizes, used in entire app, to make the app consistent and use same sizes all over the app
-//FONT SIZES
 //WIDTHS/HEIGHTS
 //PADDING AND MARGINS
 
 class DesignMetrics {
-  ///==> MARGINS/PADDING/HEIGHT/WIDTH DECLARE
+  //==> MARGINS
+  double _margin22 = 22;
   double _margin12 = 12;
-  ///
+  //==> PADDING
   double _padding22 = 22;
-  ///
+  //==> HEIGHT
   double _height330 = 330;
-  ///
+  //==> WIDTH
   double _width300 = 300;
-  ///
+  ///==> Radius
   double _radius12 = 12;
-  ///
-  double _size80 = 80;
-  double _size100 = 100;
-  ///
+  double _radius14 = 14;
+  //==> Gaps
   double _gap12 = 12;
-  ///
 
   ///==> GETTERS
 
   //==> APP MARGINS GETTER
-  double get getPageMargin  => _padding22;
-
-
-
+  double get getPageMargin  => _margin12;
 
   //==> APP RADIUS GETTER
-  double get commonContainerRadius12 => _updateBasedOnScreenWidth(_radius12);
-  double get dialogRadius => _updateBasedOnScreenWidth(_radius12);
+  double get getCommonRadius14 => _radius14;
+  double get getDialogRadius12 => _radius12;
 
   ///==================================================///
   _updateBasedOnScreenWidth(double moreThan400,{

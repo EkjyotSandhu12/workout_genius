@@ -122,13 +122,13 @@ class _OTPFieldState extends State<OTPField> {
                           maxLength: 1,
                           decoration: InputDecoration(
                             counterText: "",
-                            enabledBorder: ThemeDecorations().inputBorder(),
+                /*            enabledBorder: ThemeDecorations().inputBorder(),
                             focusedBorder: ThemeDecorations()
                                 .inputBorder()
                                 .copyWith(
                                 borderSide: BorderSide(
                                     color: Colors.red),
-                          ),
+                          ),*/
                         ),
                       ),
                     ),

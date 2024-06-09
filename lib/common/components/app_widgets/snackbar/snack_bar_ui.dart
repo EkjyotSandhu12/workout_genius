@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../theme/app_colors.dart';
 import '../../../theme/text_styles.dart';
 import '../../../theme/theme_decorations.dart';
 
@@ -59,9 +60,9 @@ class SnackBarUI extends StatelessWidget {
             width: 12,
           ),
           IconButton(
-            icon: const Icon(
+            icon:  Icon(
               Icons.close,
-              color: Colors.black,
+              color: AppColors().getTextColor,
               size: 26,
             ),
             onPressed: () {
