@@ -4,10 +4,9 @@ import '../../../../../../common/Utils/utils.dart';
 import '../../../../../../common/theme/text_styles.dart';
 import '../../../../../../common/theme/theme_constants.dart';
 import '../../../../common/common_dtos/session/session_dto.dart';
-import '../../../../common/components/custom_widgets/minutes_sec_increment_input.dart';
-import '../../../../common/components/custom_widgets/number_increment_input.dart';
+import '../../../../common/components/custom_widgets/inputs/minutes_sec_increment_input.dart';
+import '../../../../common/components/custom_widgets/inputs/number_increment_input.dart';
 import '../../../../common/utils/debounce.dart';
-import '../../widget/precise_customization_drop_down.dart';
 import '../edit_or_add_workouts/widgets/reps_per_set_increment_input.dart';
 
 class AddExerciseDialogUI extends StatefulWidget {

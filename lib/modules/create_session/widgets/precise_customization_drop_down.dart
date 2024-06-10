@@ -1,25 +1,16 @@
-/*
 import 'package:flutter/material.dart';
 
 import '../../../common/Utils/utils.dart';
 import '../../../common/common_dtos/session/session_dto.dart';
 import '../../../common/components/custom_widgets/animated_drop_down_menu.dart';
 import '../../../common/components/custom_widgets/clickable_equal_parition_divider.dart';
-import '../../../common/theme/theme_constants.dart';
-import '../helper/ui_helper.dart';
 
 class PreciseCustomizationDropDown extends StatelessWidget {
   PreciseCustomizationDropDown(
       {super.key,
-      required this.setsAndBreaksList,
-      required this.deleteSet,
-      required this.deleteBreak,
-      required this.onPreciseCustomizationUpdate});
+      required this.setsAndBreaksList,});
 
   final List setsAndBreaksList;
-  final Function deleteSet;
-  final Function deleteBreak;
-  final Function onPreciseCustomizationUpdate;
 
   @override
   Widget build(BuildContext context) {
@@ -36,15 +27,15 @@ class PreciseCustomizationDropDown extends StatelessWidget {
                 late Widget widget;
                 if (e is SetDto) {
                   widget = AdvanceCustomizationListTileEachSet(
-                    deleteSet: () => deleteSet(e),
-                    updateParentWidgetState: onPreciseCustomizationUpdate,
+                    deleteSet: () {},
+                    updateParentWidgetState: (){},
                     set: e,
                     metricShortForm:'mm',
                   );
                 } else {
                   widget = AdvanceCustomizationListTileEachBreak(
-                    updateParentWidgetState: onPreciseCustomizationUpdate,
-                    deleteBeakDto: () => deleteBreak(e),
+                    updateParentWidgetState: (){},
+                    deleteBeakDto:(){},
                     breakDto: e,
                   );
                 }
@@ -78,8 +69,7 @@ class AdvanceCustomizationListTileEachSet extends StatelessWidget {
   Function updateParentWidgetState;
   Function deleteSet;
 
-  CreateWorkoutSessionUiHelper createWorkoutSessionUiHelper =
-      CreateWorkoutSessionUiHelper();
+
 
   @override
   Widget build(BuildContext context) {
@@ -103,10 +93,7 @@ class AdvanceCustomizationListTileEachSet extends StatelessWidget {
             overflow: TextOverflow.clip,
           ),
           onTap: () {
-            createWorkoutSessionUiHelper.onWorkoutNameChange(
-                set: set,
-                updateParentWidgetState: updateParentWidgetState,
-                context: context);
+
           },
         ),
         PartitionData(
@@ -114,10 +101,7 @@ class AdvanceCustomizationListTileEachSet extends StatelessWidget {
           title: "Total Reps",
           widget: Text("${set.reps}"),
           onTap: () async {
-            createWorkoutSessionUiHelper.onTotalRepsClicked(
-                context: context,
-                set: set,
-                updateParentWidgetState: updateParentWidgetState);
+
           },
         ),
         PartitionData(
@@ -125,11 +109,7 @@ class AdvanceCustomizationListTileEachSet extends StatelessWidget {
           title: "Weight\n($metricShortForm)",
           widget: Text("${25}"),
           onTap: () async {
-            createWorkoutSessionUiHelper.onWeightClicked(
-                updateParentWidgetState: updateParentWidgetState,
-                set: set,
-                context: context,
-                metricShortForm: metricShortForm);
+
           },
         ),
         PartitionData(
@@ -139,10 +119,7 @@ class AdvanceCustomizationListTileEachSet extends StatelessWidget {
             "${Utils.formatDurationToMM(set.setTotalDuration)}m ${Utils.formatDurationTo60S(set.setTotalDuration)}s",
           ),
           onTap: () async {
-            createWorkoutSessionUiHelper.onSetDurationClicked(
-                context: context,
-                set: set,
-                updateParentWidgetState: updateParentWidgetState);
+
           },
         ),
         PartitionData(
@@ -182,10 +159,7 @@ class AdvanceCustomizationListTileEachBreak extends StatelessWidget {
             widget: Text(
                 "${Utils.formatDurationToMM(breakDto.breakTotalDuration)}m ${Utils.formatDurationTo60S(breakDto.breakTotalDuration)}s"),
             onTap: () {
-              CreateWorkoutSessionUiHelper().onBreakDurationClicked(
-                  context: context,
-                  breakDto: breakDto,
-                  updateParentWidgetState: updateParentWidgetState);
+
             }),
         PartitionData(
           widthRatio: .1,
@@ -200,4 +174,3 @@ class AdvanceCustomizationListTileEachBreak extends StatelessWidget {
     );
   }
 }
-*/

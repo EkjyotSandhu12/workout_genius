@@ -22,4 +22,11 @@ class ThemeDecorations {
       blurRadius: 4,
     );
   }
+
+  BoxShadow commonWorkoutPreviewBoxShadow() {
+    return BoxShadow(
+        color: Colors.black.withOpacity(.4),
+        blurRadius: 2,
+        spreadRadius: 0,);
+  }
 }

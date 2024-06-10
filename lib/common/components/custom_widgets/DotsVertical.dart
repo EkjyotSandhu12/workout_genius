@@ -6,7 +6,7 @@ class DotsVertical extends StatelessWidget {
     this.width= 2.3,
     this.height= 15,
     this.gap= 4,
-    this.count = 3,
+    this.count = 2,
   });
 
   double height;

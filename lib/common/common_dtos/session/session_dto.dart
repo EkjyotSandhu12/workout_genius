@@ -4,13 +4,13 @@ abstract class SessionItem {} //breakdto and exercisedto will be considered sess
 
 class SessionDto {
   int elapsedMillisecond;
-  String sessionName;
+  String? sessionName;
   String? imageUrl;
-  List<SessionItem> sessionExercises;
+  List<SessionItem>? sessionExercises;
 
   SessionDto({
-    required this.sessionName,
-    required this.sessionExercises,
+     this.sessionName,
+     this.sessionExercises,
     this.imageUrl,
     this.elapsedMillisecond = 0,
   });
@@ -71,36 +71,46 @@ List<SessionDto> sessions = [
             setTotalDuration: const Duration(seconds: 100),
             parentWorkoutName: 'exerciseName',
           ),
-          BreakDto(breakTotalDuration: Duration(hours: 3)),
-          SetDto(
-            totalSets: 4,
-            reps: 12,
-            setNo: 2,
-            setTotalDuration: const Duration(seconds: 100),
-            parentWorkoutName: 'exerciseName',
-          ),
-          BreakDto(breakTotalDuration: Duration(minutes: 30)),
-          SetDto(
-            totalSets: 4,
-            reps: 12,
-            setNo: 3,
-            setTotalDuration: const Duration(seconds: 100),
-            parentWorkoutName: 'exerciseName',
-          ),
-          BreakDto(breakTotalDuration: Duration(minutes: 30)),
-          SetDto(
-            totalSets: 4,
-            reps: 12,
-            setNo: 4,
-            setTotalDuration: const Duration(seconds: 100),
-            parentWorkoutName: 'exerciseName',
-          ),
-          BreakDto(breakTotalDuration: Duration(minutes: 30)),
         ],
       ),
       BreakDto(
-          breakTotalDuration:
+        breakTotalDuration: const Duration(hours: 24, seconds: 60, minutes: 60),
+      ),
+      ExerciseDto(
+        totalSets: 4,
+        exerciseName: 'exerciseName',
+        items: [
+          BreakDto(
+              breakTotalDuration:
               const Duration(hours: 24, seconds: 60, minutes: 60)),
+          SetDto(
+            reps: 12,
+            setNo: 1,
+            totalSets: 4,
+            setTotalDuration: const Duration(seconds: 100),
+            parentWorkoutName: 'exerciseName',
+          ),
+        ],
+      ),
+      BreakDto(
+        breakTotalDuration: const Duration(hours: 24, seconds: 60, minutes: 60),
+      ),
+      ExerciseDto(
+        totalSets: 4,
+        exerciseName: 'exerciseName',
+        items: [
+          BreakDto(
+              breakTotalDuration:
+              const Duration(hours: 24, seconds: 60, minutes: 60)),
+          SetDto(
+            reps: 12,
+            setNo: 1,
+            totalSets: 4,
+            setTotalDuration: const Duration(seconds: 100),
+            parentWorkoutName: 'exerciseName',
+          ),
+        ],
+      ),
     ],
   ),
 ];

@@ -78,7 +78,7 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
                 child: ListView(
                   physics: const ClampingScrollPhysics(),
                   children: [
-                    ...widget.session.sessionExercises.map(
+                    ...widget.session.sessionExercises!.map(
                       (sessionItem) {
                         bool isExercise = sessionItem is ExerciseDto;
                         bool isBreak = sessionItem is BreakDto;

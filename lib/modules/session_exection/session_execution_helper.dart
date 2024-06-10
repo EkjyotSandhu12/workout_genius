@@ -4,7 +4,7 @@ class SessionExecutionHelper {
   updateCompletionOfTheSession(SessionDto session) {
     int sessionElapsedMs = session.elapsedMillisecond.toInt();
     // int sessionElapsedMs = 420000;
-    for (var sessionItem in session.sessionExercises) {
+    for (var sessionItem in session.sessionExercises!) {
       if (sessionItem is ExerciseDto) {
         if (sessionElapsedMs == 0) {
           break;

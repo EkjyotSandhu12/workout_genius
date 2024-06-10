@@ -1,14 +1,8 @@
 /*
 import 'package:flutter/material.dart';
-import '../../../../../../../common/constants/strings.dart';
-import '../../../../../common/components/custom_widgets/buttons.dart';
-import '../../../../../common/components/custom_widgets/data_input_widget/number_increment_input.dart';
-import '../../../../../common/dto/session_dtos/set_dto.dart';
-import '../../../../../common/services/log_service.dart';
-import '../../../../../common/theme/color_themes.dart';
-import '../../../../../common/theme/decorations.dart';
+import '../../../../../common/common_dtos/session/session_dto.dart';
+import '../../../../../common/components/custom_widgets/inputs/number_increment_input.dart';
 import '../../../../../common/theme/text_styles.dart';
-import '../../../../../common/theme/theme_constants.dart';
 
 class RepsPerSetWidget extends StatefulWidget {
   RepsPerSetWidget(
@@ -33,8 +27,6 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
 
   @override
   void didUpdateWidget(covariant RepsPerSetWidget oldWidget) {
-    loggy.traceLog("RepsPerSetWidget didUpdateWidget called");
-    loggy.traceLog("maxSelectedSets ${widget.maxSelectedSets}");
     if (widget.maxSelectedSets < currentSelectedSet) {
       updateCurrentSelectSet();
     }
@@ -51,6 +43,8 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
     currentSelectedSet = widget.repsPerSet[widget.maxSelectedSets - 1].setNo;
     currentRepsCount = widget.repsPerSet[widget.maxSelectedSets - 1].repsCount;
   }
+*/
+/*
 
   updateCurrentSelectedSet(int setNo) {
     if (setNo > widget.maxSelectedSets) {
@@ -66,6 +60,8 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
 
     setState(() {});
   }
+*//*
+
 
   updateRepCountForSet(int repsCount) {
     loggy.traceLog("repsCount New => $repsCount");
@@ -80,36 +76,25 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
 
   @override
   Widget build(BuildContext context) {
-    loggy.traceLog("RepsPerSetWidget rebuild occurred");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           widget.title,
-          style: GlobalDecorations.inputFieldHeadingStyle,
         ),
         SizedBox(
-          height: ThemeConstants.titleAndTextFieldGap,
+          height: 8,
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: ColorThemes.backgroundColor(),
-            borderRadius:ThemeConstants.radiusBigAll,
-            boxShadow: [
-              GlobalDecorations.cardShadowCustom,
-            ],
-            border: Border.all(
-              color: ColorThemes.defaultTextColor()!.withOpacity(.1),
-            ),
-          ),
+
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               NumberInputVerticalWithText(
                 value: currentSelectedSet,
-                sideText: Strings.set,
+                sideText: 'Strings.sa',
                 onValueChange: updateCurrentSelectedSet,
               ),
               const SizedBox(
@@ -118,7 +103,7 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
               NumberInputVerticalWithText(
                 onValueChange: updateRepCountForSet,
                 value: currentRepsCount,
-                sideText: Strings.reps,
+                sideText:' Strings.reps',
               )
             ],
           ),
@@ -126,6 +111,9 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
       ],
     );
   }
+}
+
+class Strings {
 }
 
 class NumberInputVerticalWithText extends StatefulWidget {

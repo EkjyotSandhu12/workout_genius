@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:workout_genius/modules/create_session/widget/session_item_circle_ui.dart';
-import 'package:workout_genius/modules/create_session/widget/session_item_description_ui.dart';
+import 'package:workout_genius/common/helpers/helper.dart';
+import 'package:workout_genius/common/theme/theme_decorations.dart';
+import 'package:workout_genius/modules/create_session/modules/session_item_preview_list/widgets/session_item_circle_ui.dart';
+import 'package:workout_genius/modules/create_session/modules/session_item_preview_list/widgets/session_item_description_ui.dart';
 
-import '../../../common/common_dtos/session/session_dto.dart';
-import '../../../common/theme/design_metrics.dart';
-import '../../../common/utils/utils.dart';
-import '../create_session_bottom_sheet.dart';
+import '../../../../../common/Utils/utils.dart';
+import '../../../../../common/common_dtos/session/session_dto.dart';
+import '../../../../../common/theme/design_metrics.dart';
 
-
-class SessionItemBreakContainer extends StatelessWidget {
-  const SessionItemBreakContainer({
+class SessionItemBreakContainer extends StatefulWidget {
+  SessionItemBreakContainer({
     super.key,
     required this.breakDto,
   });
 
   final BreakDto breakDto;
 
+  @override
+  State<SessionItemBreakContainer> createState() =>
+      _SessionItemBreakContainerState();
+}
+
+class _SessionItemBreakContainerState extends State<SessionItemBreakContainer> {
+  Color containerColor =       Color(0xffCAF1DE);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,11 +34,14 @@ class SessionItemBreakContainer extends StatelessWidget {
       ),
       width: double.infinity,
       decoration: BoxDecoration(
+        boxShadow: [
+          ThemeDecorations().commonWorkoutPreviewBoxShadow(),
+        ],
         borderRadius: BorderRadius.circular(DesignMetrics().getCommonRadius24),
-        color: Colors.grey.withOpacity(.2),
+        color: containerColor,
       ),
       child: SessionItemBreakListTile(
-        breakDto: breakDto,
+        breakDto: widget.breakDto,
       ),
     );
   }

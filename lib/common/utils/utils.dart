@@ -60,9 +60,19 @@ class Utils {
   static bool isScrollPositionPastLimit(ScrollController controller,
       {double limitPercentage = 80}) {
     //if screen is scrolled more than 80 percent, then it will return true.
+
     return controller.position.pixels >
-        (controller.position.maxScrollExtent * (10 / limitPercentage));
+        ((controller.position.maxScrollExtent * limitPercentage) / 100);
   }
+
+  static bool isScrollPositionBeforeLimit(ScrollController controller,
+      {double limitPercentage = 80}) {
+    //if screen is scrolled more than 80 percent, then it will return true.
+
+    return controller.position.pixels <
+        ((controller.position.maxScrollExtent * limitPercentage) / 100);
+  }
+
 
   static getWidgetHeight(BuildContext context) {
     RenderBox box = context.findRenderObject() as RenderBox;
@@ -81,6 +91,12 @@ class Utils {
     double x = position.dx;
     return Offset(x, y);
   }
+
+
+  static Color getColorFromRandom(List<Color> colors){
+    return colors[Random().nextInt(colors.length-1)];
+  }
+
 
   ///==> LOGIC RELATED
 

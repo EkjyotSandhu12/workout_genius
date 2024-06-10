@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:workout_genius/modules/create_session/widget/session_item_break_container.dart';
-import 'package:workout_genius/modules/create_session/widget/session_item_circle_ui.dart';
-import 'package:workout_genius/modules/create_session/widget/session_item_description_ui.dart';
-import '../../../common/common_dtos/session/session_dto.dart';
-import '../../../common/theme/design_metrics.dart';
-import '../../../common/theme/text_styles.dart';
-import '../../../common/utils/utils.dart';
+import 'package:workout_genius/modules/create_session/modules/session_item_preview_list/widgets/session_item_break_container.dart';
+import 'package:workout_genius/modules/create_session/modules/session_item_preview_list/widgets/session_item_description_ui.dart';
+import 'package:workout_genius/modules/create_session/modules/session_item_preview_list/widgets/session_item_circle_ui.dart';
+import '../../../../../common/common_dtos/session/session_dto.dart';
+import '../../../../../common/theme/design_metrics.dart';
+import '../../../../../common/theme/text_styles.dart';
+import '../../../../../common/theme/theme_decorations.dart';
+import '../../../../../common/utils/utils.dart';
 
-
-
-class SessionItemExerciseContainer extends StatelessWidget {
+class SessionItemExerciseContainer extends StatefulWidget {
   const SessionItemExerciseContainer({
     super.key,
     required this.exerciseDto,
@@ -18,8 +17,18 @@ class SessionItemExerciseContainer extends StatelessWidget {
   final ExerciseDto exerciseDto;
 
   @override
+  State<SessionItemExerciseContainer> createState() => _SessionItemExerciseContainerState();
+}
+
+class _SessionItemExerciseContainerState extends State<SessionItemExerciseContainer> {
+
+  Color containerColor =  Color(0xfffff5ee);
+
+
+  @override
   Widget build(BuildContext context) {
     return Container(
+
       padding: const EdgeInsets.only(
         top: 8,
         left: 12,
@@ -28,27 +37,32 @@ class SessionItemExerciseContainer extends StatelessWidget {
       ),
       width: double.infinity,
       decoration: BoxDecoration(
+        boxShadow: [
+          ThemeDecorations().commonWorkoutPreviewBoxShadow(),
+        ],
         borderRadius: BorderRadius.circular(DesignMetrics().getCommonRadius24),
-        color: Colors.grey.withOpacity(.2),
+        color: containerColor,
       ),
       child: Column(
         children: [
           ExercisePreviewHeader(
-            exerciseDto: exerciseDto,
+            exerciseDto: widget.exerciseDto,
           ),
           const SizedBox(
             height: 12,
           ),
           Column(
             children: [
-              ...exerciseDto.items.map(
-                    (workoutItem) {
+              ...widget.exerciseDto.items.map(
+                (workoutItem) {
+                  Widget child = const SizedBox();
+
                   if (workoutItem is SetDto) {
-                    return Row(
+                    child = Row(
                       children: [
                         SessionItemCircleUI(
                           centerText:
-                          'Set ${workoutItem.setNo} of ${workoutItem.totalSets}',
+                              'Set ${workoutItem.setNo} of ${workoutItem.totalSets}',
                         ),
                         const SizedBox(
                           width: 8,
@@ -61,12 +75,15 @@ class SessionItemExerciseContainer extends StatelessWidget {
                       ],
                     );
                   } else if (workoutItem is BreakDto) {
-                    return SessionItemBreakListTile(
+                    child = SessionItemBreakListTile(
                       breakDto: workoutItem,
                     );
                   }
 
-                  return SizedBox();
+                  return Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: child,
+                  );
                 },
               ),
             ],
@@ -116,4 +133,3 @@ class ExercisePreviewHeader extends StatelessWidget {
     );
   }
 }
-

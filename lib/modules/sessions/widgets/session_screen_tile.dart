@@ -42,7 +42,7 @@ class SessionScreenTileUI extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    sessionDto.sessionName,
+                    sessionDto.sessionName!,
                     maxLines: 2,
                     style: TextStyles().getRubikTextStyle(
                       fontWeight: VFontWeight.w600,

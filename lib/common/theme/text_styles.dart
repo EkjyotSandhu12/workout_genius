@@ -17,6 +17,10 @@ class TextStyles {
       .getRubikTextStyle(fontSize: 22, fontWeight: VFontWeight.normal);
 
 
+  //titles
+
+
+
   //input text field
   TextStyle get getTextFieldErrorTextStyle =>
       getRubikTextStyle(fontSize: 12, color: AppColors().getErrorColor);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/theme/app_colors.dart';
-import '../../../common/theme/text_styles.dart';
+import '../../../../../common/theme/app_colors.dart';
+import '../../../../../common/theme/text_styles.dart';
 
 class SessionItemCircleUI extends StatelessWidget {
   const SessionItemCircleUI({

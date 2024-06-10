@@ -46,6 +46,40 @@ class BtnElevated extends StatelessWidget {
   }
 }
 
+class BtnOutlined extends StatelessWidget {
+  BtnOutlined(
+      {super.key,
+        this.btnProperties,
+        required this.onTap,
+        required this.buttonText});
+
+  final String buttonText;
+  BtnProperties? btnProperties;
+  final Function onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        onTap();
+      },
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(color: AppColors().getPrimaryColor),
+        minimumSize: btnProperties?.size,
+        fixedSize: btnProperties?.size,
+        backgroundColor:
+        btnProperties?.backgroundColor ,
+      ),
+      child: Text(
+        buttonText,
+        style: TextStyle(
+            fontSize: btnProperties?.textSize,
+            color: AppColors().getPrimaryColor),
+      ),
+    );
+  }
+}
+
 class BtnIcon extends StatelessWidget {
   BtnIcon({
     super.key,

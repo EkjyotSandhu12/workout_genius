@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/theme/text_styles.dart';
+import '../../../../../common/theme/text_styles.dart';
 
 class SessionItemDescription extends StatelessWidget {
   const SessionItemDescription({
