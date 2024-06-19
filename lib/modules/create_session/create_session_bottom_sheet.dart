@@ -70,6 +70,7 @@ class _CreateSessionBottomSheetState extends State<CreateSessionBottomSheet> {
             child: Column(
               children: [
                 NameInputHeaderAppBar(
+                  appBarText: AppStrings.createWorkoutSession,
                   textFieldHintText: AppStrings.enterYourSessionName,
                   textController: sessionNameController,
                 ),
@@ -92,8 +93,7 @@ class _CreateSessionBottomSheetState extends State<CreateSessionBottomSheet> {
             ),
           ),
         ),
-        AddExercuseUiNew(),
-
+        AddExerciseUiNew(),
       ],
     );
   }

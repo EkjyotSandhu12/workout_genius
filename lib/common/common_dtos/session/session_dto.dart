@@ -61,9 +61,7 @@ List<SessionDto> sessions = [
         totalSets: 4,
         exerciseName: 'exerciseName',
         items: [
-          BreakDto(
-              breakTotalDuration:
-                  const Duration(hours: 24, seconds: 60, minutes: 60)),
+
           SetDto(
             reps: 12,
             setNo: 1,
@@ -71,6 +69,27 @@ List<SessionDto> sessions = [
             setTotalDuration: const Duration(seconds: 100),
             parentWorkoutName: 'exerciseName',
           ),
+          BreakDto(
+              breakTotalDuration:
+              const Duration(seconds: 60)),
+          SetDto(
+            reps: 12,
+            setNo: 1,
+            totalSets: 4,
+            setTotalDuration: const Duration(seconds: 100),
+            parentWorkoutName: 'exerciseName',
+          ),
+          BreakDto(
+              breakTotalDuration:
+              const Duration(seconds: 60)),
+          SetDto(
+            reps: 12,
+            setNo: 1,
+            totalSets: 4,
+            setTotalDuration: const Duration(seconds: 100),
+            parentWorkoutName: 'exerciseName',
+          ),
+
         ],
       ),
       BreakDto(

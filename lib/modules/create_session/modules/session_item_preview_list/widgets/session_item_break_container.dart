@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:workout_genius/common/helpers/helper.dart';
 import 'package:workout_genius/common/theme/theme_decorations.dart';
 import 'package:workout_genius/modules/create_session/modules/session_item_preview_list/widgets/session_item_circle_ui.dart';
 import 'package:workout_genius/modules/create_session/modules/session_item_preview_list/widgets/session_item_description_ui.dart';
-
-import '../../../../../common/Utils/utils.dart';
 import '../../../../../common/common_dtos/session/session_dto.dart';
 import '../../../../../common/theme/design_metrics.dart';
+import '../../../../../common/utils/utils.dart';
 
 class SessionItemBreakContainer extends StatefulWidget {
   SessionItemBreakContainer({

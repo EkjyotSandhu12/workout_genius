@@ -18,7 +18,7 @@ class TextStyles {
 
 
   //titles
-
+  TextStyle get getInputsTitleStyle => TextStyles().getRubikTextStyle(fontSize: 14, fontWeight: VFontWeight.w500);
 
 
   //input text field

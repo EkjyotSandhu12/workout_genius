@@ -11,11 +11,13 @@ class NameInputHeaderAppBar extends StatelessWidget {
     super.key,
     required this.textController,
     required this.textFieldHintText,
+    required this.appBarText,
      this.onBackButtonOverride,
   });
 
   final TextEditingController textController;
   final String textFieldHintText;
+  final String appBarText;
   final VoidCallback? onBackButtonOverride;
 
   @override
@@ -50,7 +52,7 @@ class NameInputHeaderAppBar extends StatelessWidget {
               },
             ),
             title: Text(
-              AppStrings.createWorkoutSession,
+              appBarText,
               style: TextStyles().getAppBarTextStyle.copyWith(
                     color: AppColors().getOnPrimaryColor,
                   ),

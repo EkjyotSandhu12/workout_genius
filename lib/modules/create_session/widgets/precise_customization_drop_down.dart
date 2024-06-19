@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import '../../../common/Utils/utils.dart';
 import '../../../common/common_dtos/session/session_dto.dart';
 import '../../../common/components/custom_widgets/animated_drop_down_menu.dart';
 import '../../../common/components/custom_widgets/clickable_equal_parition_divider.dart';
+import '../../../common/utils/utils.dart';
 
 class PreciseCustomizationDropDown extends StatelessWidget {
   PreciseCustomizationDropDown(

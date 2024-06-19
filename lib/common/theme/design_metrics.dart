@@ -19,9 +19,13 @@ class DesignMetrics {
   double _radius14 = 14;
   double _radius24 = 24;
   //==> Gaps
-  double _gap12 = 12;
+  double _gap12 = 8;
 
   ///==> GETTERS
+
+  //==> APP MARGINS GETTER
+  double get getTitleInputGap  => _gap12;
+
 
   //==> APP MARGINS GETTER
   double get getPageMargin  => _margin12;

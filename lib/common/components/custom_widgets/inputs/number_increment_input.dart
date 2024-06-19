@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:workout_genius/common/theme/app_colors.dart';
+import 'package:workout_genius/common/theme/design_metrics.dart';
+import 'package:workout_genius/common/theme/text_styles.dart';
+import 'package:workout_genius/common/theme/theme_decorations.dart';
 
 import '../../app_widgets/buttons.dart';
 
 class NumberIncrementController extends ChangeNotifier {
   int currentNumber = 1;
 
-  NumberIncrementController({int? count}){
-    currentNumber = count??1;
+  NumberIncrementController({int? count}) {
+    currentNumber = count ?? 1;
   }
 
   updateCurrentNumber(int updatedNumber) {
@@ -52,19 +56,17 @@ class _NumberIncrementInputState extends State<NumberIncrementInput> {
       children: [
         Text(
           widget.title,
+          style: TextStyles().getInputsTitleStyle,
         ),
         SizedBox(
-          height: 12,
+          height: DesignMetrics().getTitleInputGap,
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
           decoration: BoxDecoration(
-            borderRadius:
-                BorderRadius.circular(12),
-            boxShadow: [
-            ],
-            border: Border.all(
-            ),
+            color: AppColors().getPrimaryColor,
+            borderRadius: BorderRadius.circular(100),
+            boxShadow: [ThemeDecorations().commonContainerBoxShadow()],
           ),
           child: Wrap(
             direction: widget.axis,
@@ -79,16 +81,23 @@ class _NumberIncrementInputState extends State<NumberIncrementInput> {
                       int newNumber = widget.controller.currentNumber + 1;
                       updateControllerNumber(newNumber);
                     },
-                    icon: const Icon(Icons.arrow_back_ios_sharp, size: 22)),
+                    icon: Icon(
+                      Icons.arrow_back_ios_sharp,
+                      size: 22,
+                      color: AppColors().getOnPrimaryColor,
+                    )),
               ),
               SizedBox(
                 height: widget.axis == Axis.horizontal ? 0 : 4,
                 width: widget.axis == Axis.horizontal ? 4 : 0,
               ),
               CircleAvatar(
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColors().getOnPrimaryColor,
                   child: Text(
                     "${widget.controller.currentNumber}",
+                    style: TextStyles().getRubikTextStyle(
+                      fontSize: 19,
+                    ),
                   )),
               SizedBox(
                 height: widget.axis == Axis.horizontal ? 0 : 4,
@@ -101,7 +110,8 @@ class _NumberIncrementInputState extends State<NumberIncrementInput> {
                     int newNumber = widget.controller.currentNumber - 1;
                     updateControllerNumber(newNumber);
                   },
-                  icon: const Icon(Icons.arrow_forward_ios_sharp, size: 22),
+                  icon: Icon(Icons.arrow_forward_ios_sharp,
+                      size: 22, color: AppColors().getOnPrimaryColor),
                 ),
               ),
             ],
