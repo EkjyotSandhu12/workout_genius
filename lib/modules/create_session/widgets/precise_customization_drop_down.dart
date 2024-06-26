@@ -86,7 +86,7 @@ class AdvanceCustomizationListTileEachSet extends StatelessWidget {
           widthRatio: .8,
           title: "Workout Name",
           widget: Text(
-            set.parentWorkoutName ?? '',
+         '',
             maxLines: 2,
             textAlign: TextAlign.center,
             overflow: TextOverflow.clip,

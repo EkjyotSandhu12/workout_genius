@@ -8,7 +8,7 @@ class AppStrings {
   static String enterExerciseName = "Enter exercise name";
   static String enterSupersetExercisesName = "Enter superset exercises name";
   static String changeExerciseName = "Change exercise name";
-  static String setsWeight = "Sets weight";
+  static String eachSetsWeight = "Each Set weight";
   static String totalSets = "Total sets";
   static String eachSetDuration = "Each set duration";
   static String setDuration = "Set duration";
@@ -18,7 +18,9 @@ class AppStrings {
   static String seconds = "Seconds";
   static String repsPerSet = "Reps per set";
   static String reps = "Reps";
+  static String totalReps = "Total Reps";
   static String set = "Set";
+  static String selectedSet = "Selected Set";
   static String inputExercise = 'Push ups/Pull ups/Crunches.....';
 
   ///==> title
@@ -33,6 +35,7 @@ class AppStrings {
   static String showAdvanceCustomization = "Show advance customization";
   static String preciseCustomization = "Precise Customization";
   static String addWorkouts = "Add Workouts";
+  static String addWorkout = "Add Workout";
   static String addMore = "Add more";
   static String createWorkoutSession = "Create workout session";
   static String addExercise = "Add Exercise";

@@ -29,10 +29,8 @@ class ExerciseDto implements SessionItem {
 }
 
 class SetDto implements WorkoutItem {
-  late String parentWorkoutName;
   late int reps;
   late int setNo;
-  late int totalSets;
   late Duration setTotalDuration;
   Duration elapsedDuration = Duration.zero;
 
@@ -40,8 +38,6 @@ class SetDto implements WorkoutItem {
     required this.setTotalDuration,
     required this.reps,
     required this.setNo,
-    required this.totalSets,
-    required this.parentWorkoutName,
   });
 }
 
@@ -61,13 +57,10 @@ List<SessionDto> sessions = [
         totalSets: 4,
         exerciseName: 'exerciseName',
         items: [
-
           SetDto(
             reps: 12,
             setNo: 1,
-            totalSets: 4,
             setTotalDuration: const Duration(seconds: 100),
-            parentWorkoutName: 'exerciseName',
           ),
           BreakDto(
               breakTotalDuration:
@@ -75,9 +68,7 @@ List<SessionDto> sessions = [
           SetDto(
             reps: 12,
             setNo: 1,
-            totalSets: 4,
             setTotalDuration: const Duration(seconds: 100),
-            parentWorkoutName: 'exerciseName',
           ),
           BreakDto(
               breakTotalDuration:
@@ -85,9 +76,7 @@ List<SessionDto> sessions = [
           SetDto(
             reps: 12,
             setNo: 1,
-            totalSets: 4,
             setTotalDuration: const Duration(seconds: 100),
-            parentWorkoutName: 'exerciseName',
           ),
 
         ],
@@ -105,9 +94,7 @@ List<SessionDto> sessions = [
           SetDto(
             reps: 12,
             setNo: 1,
-            totalSets: 4,
             setTotalDuration: const Duration(seconds: 100),
-            parentWorkoutName: 'exerciseName',
           ),
         ],
       ),
@@ -124,9 +111,7 @@ List<SessionDto> sessions = [
           SetDto(
             reps: 12,
             setNo: 1,
-            totalSets: 4,
             setTotalDuration: const Duration(seconds: 100),
-            parentWorkoutName: 'exerciseName',
           ),
         ],
       ),

@@ -52,6 +52,9 @@ class NumberTextInputWithIncrDcr extends StatelessWidget {
                     keyboardType: TextInputType.number,
                     controller: textEditingController,
                     textAlign: TextAlign.center,
+                    onTapOutside: (e){
+                      Utils.hideKeyboard();
+                    },
                     inputFormatters: [
                       DecimalTextInputFormatter(
                           decimalPointRange: 2, decimalRange: 3),
@@ -72,10 +75,10 @@ class NumberTextInputWithIncrDcr extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     BtnIcon(
-                      icon: const Icon(
+                      icon:  Icon(
                         Icons.arrow_back_ios_new,
                         size: 20,
-                        color: Colors.white,
+                        color: AppColors().getOnPrimaryColor,
                       ),
                       btnProperties: BtnProperties(
                         backgroundColor: AppColors().getPrimaryColor,
@@ -92,10 +95,10 @@ class NumberTextInputWithIncrDcr extends StatelessWidget {
                       width: 6,
                     ),
                     BtnIcon(
-                      icon: const Icon(
+                      icon:  Icon(
                         Icons.arrow_forward_ios,
                         size: 20,
-                        color: Colors.white,
+                        color:AppColors().getOnPrimaryColor,
                       ),
                       btnProperties: BtnProperties(
                         backgroundColor: AppColors().getPrimaryColor,

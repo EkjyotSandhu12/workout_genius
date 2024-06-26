@@ -56,7 +56,7 @@ class _DurationIncrementInputState extends State<DurationIncrementInput> {
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors().getOnPrimaryColor,
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               ThemeDecorations().commonContainerBoxShadow(),
@@ -127,12 +127,12 @@ class _NumberInputVerticalWithTextState
                   widget.updateDuration(
                       widget.durationType == DurationType.seconds ? 1 : 60);
                 },
-                icon: const RotatedBox(
+                icon:  RotatedBox(
                   quarterTurns: 1,
                   child: Icon(
                     Icons.arrow_back_ios_sharp,
                     size: 22,
-                    color: Colors.white,
+                    color: AppColors().getOnPrimaryColor,
                   ),
                 ),
               ),
@@ -140,10 +140,11 @@ class _NumberInputVerticalWithTextState
                 height: 4,
               ),
               CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Text(
-                    "${widget.durationType == DurationType.seconds ? widget.dIC.currentDuration.value.inSeconds - (60 * widget.dIC.currentDuration.value.inMinutes) : widget.dIC.currentDuration.value.inMinutes}",
-                  )),
+                backgroundColor: AppColors().getOnPrimaryColor,
+                child: Text(
+                  "${widget.durationType == DurationType.seconds ? widget.dIC.currentDuration.value.inSeconds - (60 * widget.dIC.currentDuration.value.inMinutes) : widget.dIC.currentDuration.value.inMinutes}",
+                ),
+              ),
               const SizedBox(
                 height: 4,
               ),
@@ -154,10 +155,10 @@ class _NumberInputVerticalWithTextState
                     widget.updateDuration(
                         widget.durationType == DurationType.seconds ? -1 : -60);
                   },
-                  icon: const Icon(
+                  icon:  Icon(
                     Icons.arrow_forward_ios_sharp,
                     size: 22,
-                    color: Colors.white,
+                    color: AppColors().getOnPrimaryColor,
                   ),
                 ),
               ),
@@ -165,7 +166,7 @@ class _NumberInputVerticalWithTextState
           ),
         ),
         SizedBox(
-          width: 4,
+          width: 8,
         ),
         Opacity(
             opacity: .5,

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:workout_genius/common/components/app_widgets/buttons.dart';
 import 'package:workout_genius/common/components/app_widgets/inputs/my_input_text_field.dart';
 import 'package:workout_genius/common/route/route_service.dart';
 import 'package:workout_genius/common/theme/design_metrics.dart';
-import '../../../common/app_values/app_strings.dart';
 import '../../../common/theme/app_colors.dart';
 import '../../../common/theme/text_styles.dart';
+
+class AppBarButton {
+  late String buttonText;
+  late VoidCallback onTap;
+
+  AppBarButton({required this.buttonText, required this.onTap});
+}
 
 class NameInputHeaderAppBar extends StatelessWidget {
   NameInputHeaderAppBar({
@@ -12,13 +19,15 @@ class NameInputHeaderAppBar extends StatelessWidget {
     required this.textController,
     required this.textFieldHintText,
     required this.appBarText,
-     this.onBackButtonOverride,
+    this.onBackButtonOverride,
+    this.appBarButton,
   });
 
   final TextEditingController textController;
   final String textFieldHintText;
   final String appBarText;
   final VoidCallback? onBackButtonOverride;
+  final AppBarButton? appBarButton;
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +60,29 @@ class NameInputHeaderAppBar extends StatelessWidget {
                 }
               },
             ),
-            title: Text(
-              appBarText,
-              style: TextStyles().getAppBarTextStyle.copyWith(
-                    color: AppColors().getOnPrimaryColor,
+            title: Row(
+              children: [
+                Text(
+                  appBarText,
+                  style: TextStyles().getAppBarTextStyle.copyWith(
+                        color: AppColors().getOnPrimaryColor,
+                      ),
+                ),
+                const Spacer(),
+                if (appBarButton != null)
+                  BtnOutlined(
+                    onTap: appBarButton!.onTap,
+                    buttonText: appBarButton!.buttonText,
+                    btnProperties: BtnProperties(
+                      size: const Size(140, 44),
+                      backgroundColor: AppColors().getOnPrimaryColor,
+                    ),
                   ),
+              ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 14, right: 14, bottom: 14),
+            padding: const EdgeInsets.only(left: 14, right: 14, bottom: 14, top: 8),
             child: MyInputTextField(
               textEditingController: textController,
               hintText: textFieldHintText,

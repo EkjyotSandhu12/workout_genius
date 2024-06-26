@@ -14,8 +14,6 @@ class AppColors{
   final Color getOnPrimaryColor = Colors.white; // Color used on top of primaryColor
   final Color getSecondaryColor = Color(0xFF222831);
   final Color getOnSecondaryColor = Color(0xffEEEEEE);
-  final Color getSecondaryColor2 = Color(0xFF393E46);
-  final Color getOnSecondaryColor2 = Color(0xffEEEEEE);
 
   //others
   final Color getTextColor = Colors.black;

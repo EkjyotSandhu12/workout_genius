@@ -102,15 +102,11 @@ class _SessionExecutionScreenState extends State<SessionExecutionScreen> {
                                     totalSets = sessionItem.items.length;
 
                                     return SetBlockUI(
-                                      setNo: sessionItem.items
-                                              .indexOf(workoutItem) +
-                                          1,
+                                      setNo: sessionItem.items.indexOf(workoutItem) + 1,
                                       totalSets: totalSets,
-                                      parentWorkoutName:
-                                          workoutItem.parentWorkoutName,
+                                      parentWorkoutName: sessionItem.exerciseName,
                                       elapsedTime: workoutItem.elapsedDuration,
-                                      totalSetTime:
-                                          workoutItem.setTotalDuration,
+                                      totalSetTime: workoutItem.setTotalDuration,
                                     );
                                   }
                                   if (isBreak) {

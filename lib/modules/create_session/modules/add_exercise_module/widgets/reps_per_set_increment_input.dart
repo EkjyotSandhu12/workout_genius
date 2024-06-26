@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:workout_genius/common/theme/text_styles.dart';
+import '../../../../../common/app_values/app_strings.dart';
 import '../../../../../common/common_dtos/session/session_dto.dart';
 import '../../../../../common/components/app_widgets/buttons.dart';
 import '../../../../../common/components/custom_widgets/inputs/number_increment_input.dart';
 import '../../../../../common/services/loggy_service.dart';
+import '../../../../../common/theme/app_colors.dart';
+import '../../../../../common/theme/theme_decorations.dart';
 
 class RepsPerSetWidget extends StatefulWidget {
   RepsPerSetWidget(
@@ -22,8 +26,7 @@ class RepsPerSetWidget extends StatefulWidget {
 }
 
 class _DurationIncrementInputState extends State<RepsPerSetWidget> {
-  int currentSelectedSet = 1;
-  int currentRepsCount = 1;
+
 
   @override
   void didUpdateWidget(covariant RepsPerSetWidget oldWidget) {
@@ -39,6 +42,9 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
     super.initState();
   }
 
+  int currentSelectedSet = 1;
+  int currentRepsCount = 1;
+
   void updateCurrentSelectSet() {
     currentSelectedSet = widget.repsPerSet[widget.maxSelectedSets - 1].setNo;
     currentRepsCount = widget.repsPerSet[widget.maxSelectedSets - 1].reps;
@@ -51,7 +57,8 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
       setNo = widget.maxSelectedSets;
     }
     currentSelectedSet = setNo;
-    currentRepsCount = widget.repsPerSet.firstWhere((element) => element.setNo == setNo).reps;
+    currentRepsCount =
+        widget.repsPerSet.firstWhere((element) => element.setNo == setNo).reps;
     setState(() {});
   }
 
@@ -63,7 +70,6 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
       widget.repsPerSet[currentSelectedSet - 1].reps = repsCount;
     }
     setState(() {});
-    widget.setsController.notifyListeners();
   }
 
   @override
@@ -74,18 +80,26 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
       children: [
         Text(
           widget.title,
+          style: TextStyles().getInputsTitleStyle,
         ),
-        SizedBox(
+        const SizedBox(
           height: 8,
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              ThemeDecorations().commonContainerBoxShadow(),
+            ],
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               NumberInputVerticalWithText(
                 value: currentSelectedSet,
-                sideText: 'Strings.sa',
+                sideText: AppStrings.set,
                 onValueChange: updateCurrentSelectedSet,
               ),
               const SizedBox(
@@ -94,8 +108,8 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
               NumberInputVerticalWithText(
                 onValueChange: updateRepCountForSet,
                 value: currentRepsCount,
-                sideText: ' Strings.reps',
-              )
+                sideText: AppStrings.totalReps,
+              ),
             ],
           ),
         ),
@@ -103,7 +117,6 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
     );
   }
 }
-
 
 class NumberInputVerticalWithText extends StatefulWidget {
   NumberInputVerticalWithText({
@@ -129,45 +142,65 @@ class _NumberInputVerticalWithTextState
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            BtnIcon(
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          decoration: BoxDecoration(
+            color: AppColors().getPrimaryColor,
+            borderRadius: BorderRadius.circular(100),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BtnIcon(
                 onTap: () {
                   widget.onValueChange(++widget.value);
                 },
-                icon: const RotatedBox(
-                    quarterTurns: 1,
-                    child: Icon(Icons.arrow_back_ios_sharp, size: 22))),
-            const SizedBox(
-              height: 4,
-            ),
-            CircleAvatar(
-              child: Text(
-                "${widget.value}",
+                icon: RotatedBox(
+                  quarterTurns: 1,
+                  child: Icon(
+                    Icons.arrow_back_ios_sharp,
+                    size: 22,
+                    color: AppColors().getOnPrimaryColor,
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 4,
-            ),
-            RotatedBox(
-              quarterTurns: 1,
-              child: BtnIcon(
-                onTap: () {
-                  widget.onValueChange(--widget.value);
-                },
-                icon: const Icon(Icons.arrow_forward_ios_sharp, size: 22),
+              const SizedBox(
+                height: 4,
               ),
-            ),
-          ],
+              CircleAvatar(
+                backgroundColor: AppColors().getOnPrimaryColor,
+                child: Text(
+                  "${widget.value}",
+                ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              RotatedBox(
+                quarterTurns: 1,
+                child: BtnIcon(
+                  onTap: () {
+                    widget.onValueChange(--widget.value);
+                  },
+                  icon: Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    size: 22,
+                    color: AppColors().getOnPrimaryColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         const SizedBox(
-          width: 4,
+          width: 8,
         ),
         Opacity(
           opacity: .5,
           child: Text(
             widget.sideText,
+            style: TextStyles().getRubikTextStyle(
+                fontSize: 14, fontWeight: VFontWeight.w500),
           ),
         ),
       ],

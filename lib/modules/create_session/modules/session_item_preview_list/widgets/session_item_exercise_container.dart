@@ -17,18 +17,17 @@ class SessionItemExerciseContainer extends StatefulWidget {
   final ExerciseDto exerciseDto;
 
   @override
-  State<SessionItemExerciseContainer> createState() => _SessionItemExerciseContainerState();
+  State<SessionItemExerciseContainer> createState() =>
+      _SessionItemExerciseContainerState();
 }
 
-class _SessionItemExerciseContainerState extends State<SessionItemExerciseContainer> {
-
-  Color containerColor =  Color(0xfffff5ee);
-
+class _SessionItemExerciseContainerState
+    extends State<SessionItemExerciseContainer> {
+  Color containerColor = Color(0xfffff5ee);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-
       padding: const EdgeInsets.only(
         top: 8,
         left: 12,
@@ -56,13 +55,12 @@ class _SessionItemExerciseContainerState extends State<SessionItemExerciseContai
               ...widget.exerciseDto.items.map(
                 (workoutItem) {
                   Widget child = const SizedBox();
-
                   if (workoutItem is SetDto) {
                     child = Row(
                       children: [
                         SessionItemCircleUI(
                           centerText:
-                              'Set ${workoutItem.setNo} of ${workoutItem.totalSets}',
+                              'Set ${workoutItem.setNo} of ${widget.exerciseDto.totalSets}',
                         ),
                         const SizedBox(
                           width: 8,
@@ -70,7 +68,8 @@ class _SessionItemExerciseContainerState extends State<SessionItemExerciseContai
                         SessionItemDescription(
                           text: 'Set Duration ',
                           value: Utils.formatDurationToHMS(
-                              workoutItem.setTotalDuration),
+                            workoutItem.setTotalDuration,
+                          ),
                         )
                       ],
                     );

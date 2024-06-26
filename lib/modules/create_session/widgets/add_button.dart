@@ -7,7 +7,7 @@ import '../../../common/theme/app_colors.dart';
 import '../../../common/theme/text_styles.dart';
 
 class AddButton extends StatelessWidget {
-   AddButton({
+  AddButton({
     super.key,
   });
 
@@ -19,8 +19,7 @@ class AddButton extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         ClickableWidgetOverlay(
-          onTap: () {
-          },
+          onTap: () {},
           borderRadius: BorderRadius.circular(100),
           widget: Container(
             height: 60,
@@ -46,8 +45,8 @@ class AddButton extends StatelessWidget {
               ),
               child: Text(
                 AppStrings.add.toUpperCase(),
-                style: TextStyles()
-                    .getRubikTextStyle(fontSize: 13, fontWeight: VFontWeight.w500),
+                style: TextStyles().getRubikTextStyle(
+                    fontSize: 13, fontWeight: VFontWeight.w500),
               ),
             ),
           ),
@@ -56,10 +55,7 @@ class AddButton extends StatelessWidget {
 /*        BtnElevated(onTap: (){}, buttonText: 'Add Exercise',btnProperties: btnProperties, ),
         BtnElevated(onTap: (){}, buttonText: 'Add Super-set Exercise',btnProperties: btnProperties,),
         BtnElevated(onTap: (){}, buttonText: 'Add Drop-set Exercise', btnProperties: btnProperties,),*/
-
       ],
     );
   }
 }
-
-

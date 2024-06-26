@@ -1,5 +1,7 @@
 import 'dart:ui';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:workout_genius/common/components/app_widgets/buttons.dart';
 import 'package:workout_genius/common/components/custom_widgets/inputs/number_text_input_with_incr_dcr.dart';
 import 'package:workout_genius/modules/create_session/modules/add_exercise_module/widgets/reps_per_set_increment_input.dart';
 import '../../../../../../common/theme/text_styles.dart';
@@ -22,153 +24,155 @@ class AddExerciseUiNew extends StatefulWidget {
 }
 
 class _AddExerciseUiNewState extends State<AddExerciseUiNew> {
-  ///Controllers
+  ///==> Controllers
   late Debounce debounce;
   NumberIncrementController setsController = NumberIncrementController();
-  DurationIncrementController setDurationController = DurationIncrementController();
-  DurationIncrementController breakDurationController = DurationIncrementController();
+  DurationIncrementController setDurationController =
+      DurationIncrementController();
+  DurationIncrementController breakDurationController =
+      DurationIncrementController();
   TextEditingController textWeightController =
       TextEditingController(text: "10.0");
 
+  ///==> static values
+ static getSetObject(int setNo){
+    return  SetDto(
+      setTotalDuration: const Duration(seconds: 45),
+      reps: 12,
+      setNo: setNo,);
+  }
 
-  //static values
-  static SetDto setToAdd =  SetDto(setTotalDuration: const Duration(seconds: 45), reps: 12, setNo: 1, totalSets: 1, parentWorkoutName: '');
+  ///==> Exercise workout states
+  List<SetDto> setsList = [getSetObject(1)];
 
-  //Exercise workout states
-  List<SetDto> setsList = [
-    setToAdd
-  ];
   // List<WorkoutItem> setsAndBreaksList = []; //Will contain setDTO and BreakDTO //this the is complete set.
-
 
   @override
   void initState() {
     ///==> On change of totalSets
     setsController.addListener(() {
-      if(setsController.currentNumber > setsList.length){
-        setsList.add(setToAdd);
+      if (setsController.currentNumber > setsList.length) {
+        setsList.add(getSetObject(setsController.currentNumber));
       }
+      setState(() {});
     });
+
     ///==> On Change of sets durations
     setDurationController.currentDuration.addListener(() {
-        //updating the duration of each set in the sets list.
-        setsList.forEach((set) {
-          set.setTotalDuration = setDurationController.currentDuration.value;
-        });
+      //updating the duration of each set in the sets list.
+      setsList.forEach((set) {
+        set.setTotalDuration = setDurationController.currentDuration.value;
+      });
     });
 
     ///==> On Change of break durations
-    breakDurationController.currentDuration.addListener(() {
-    });
-
+    breakDurationController.currentDuration.addListener(() {});
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            NameInputHeaderAppBar(
-              appBarText: AppStrings.addExercise,
-              textFieldHintText:
-                  "${AppStrings.enterExerciseName} (ex: Push ups/Crunches.....)",
-              textController: TextEditingController(),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                ImageFiltered(
-                  enabled: false,
-                  imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                  child: IgnorePointer(
-                    ignoring: false,
-                    child: Column(
+      body: Column(
+        children: [
+          NameInputHeaderAppBar(
+            appBarText: AppStrings.addExercise,
+            textFieldHintText:
+            "${AppStrings.enterExerciseName} (ex: Push ups/Crunches.....)",
+            textController: TextEditingController(),
+            appBarButton: AppBarButton(buttonText: AppStrings.addWorkout, onTap: () {
+
+            }),
+          ),
+
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Stack(
+                      alignment: Alignment.center,
                       children: [
-                        SizedBox(
-                          height: 24,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            NumberIncrementInput(
-                              controller: setsController,
-                              title: AppStrings.totalSets,
-                              axis: Axis.horizontal,
+                        ImageFiltered(
+                          enabled: false,
+                          imageFilter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+                          child: IgnorePointer(
+                            ignoring: false,
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    NumberIncrementInput(
+                                      controller: setsController,
+                                      title: AppStrings.totalSets,
+                                      axis: Axis.horizontal,
+                                    ),
+                                    NumberTextInputWithIncrDcr(
+                                      textEditingController: textWeightController,
+                                      title: AppStrings.eachSetsWeight,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      hintText: "weight",
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                RepsPerSetWidget(
+                                  title: AppStrings.repsPerSet,
+                                  maxSelectedSets: setsController.currentNumber,
+                                  repsPerSet: setsList,
+                                  setsController: setsController,
+                                ),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                DurationIncrementInput(
+                                    controller: setDurationController,
+                                    title: AppStrings.eachSetDuration),
+                                const SizedBox(
+                                  height: 24,
+                                ),
+                                DurationIncrementInput(
+                                    controller: breakDurationController,
+                                    title: AppStrings.eachBreakDuration,),
+                              ],
                             ),
-                            const SizedBox(
-                              width: 16,
-                            ),
-                            Flexible(
-                              child: NumberTextInputWithIncrDcr(
-                                textEditingController: textWeightController,
-                                title: AppStrings.setsWeight,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                hintText: "weight",
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        /*RepsPerSetWidget(
-                          title: 'Strings.repsPerSet',
-                          maxSelectedSets: setsController.currentNumber,
-                          repsPerSet: repsPerSet,
-                          setsController: setsController,
-                          ),*/
-                        SizedBox(
-                          height: 12,
-                        ),
-                        DurationIncrementInput(
-                            controller: setDurationController,
-                            title:AppStrings.eachSetDuration),
-                        SizedBox(
-                          height: 24,
-                        ),
-                        DurationIncrementInput(
-                            controller: breakDurationController,
-                            title: AppStrings.eachBreakDuration),
+            
+                        /* f (lockGlobalCustomization)
+                          BoldDescriptionWithButton(
+                            onTap: () {
+                              setState(() {
+                                lockGlobalCustomization = false;
+                              });
+                            },
+                            description: Strings.modifyingValues,
+                            buttonText: Strings.unlockModifications,
+                          ),
+                        */
                       ],
                     ),
-                  ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    /*          PreciseCustomizationDropDown(
+                      setsAndBreaksList: setsAndBreaksList,
+                    ),*/
+                  ],
                 ),
-
-                /*                if (lockGlobalCustomization)
-                  BoldDescriptionWithButton(
-                    onTap: () {
-                      setState(() {
-                        lockGlobalCustomization = false;
-                      });
-                    },
-                    description: Strings.modifyingValues,
-                    buttonText: Strings.unlockModifications,
-                  ),
-
-                */
-              ],
+              ),
             ),
-            SizedBox(
-              height: 12,
-            ),
-  /*          PreciseCustomizationDropDown(
-              setsAndBreaksList: setsAndBreaksList,
-            ),*/
-            SizedBox(
-              height: 12,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
