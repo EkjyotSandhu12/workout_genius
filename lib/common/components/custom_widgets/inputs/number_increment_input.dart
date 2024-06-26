@@ -15,7 +15,6 @@ class NumberIncrementController extends ChangeNotifier {
 
   updateCurrentNumber(int updatedNumber) {
     currentNumber = updatedNumber;
-
     notifyListeners();
   }
 }
@@ -96,7 +95,7 @@ class _NumberIncrementInputState extends State<NumberIncrementInput> {
                   child: Text(
                     "${widget.controller.currentNumber}",
                     style: TextStyles().getRubikTextStyle(
-                      fontSize: 19,
+                      fontSize: 17,
                     ),
                   )),
               SizedBox(

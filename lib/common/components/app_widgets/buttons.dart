@@ -101,6 +101,7 @@ class BtnIcon extends StatelessWidget {
       icon: icon,
       style: IconButton.styleFrom(
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        backgroundColor: btnProperties?.backgroundColor
       ),
       constraints: BoxConstraints(
         maxHeight: btnProperties?.size?.height ?? double.infinity,

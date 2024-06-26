@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:workout_genius/common/theme/text_styles.dart';
+import 'package:workout_genius/common/theme/theme_decorations.dart';
 
+import '../../../app_values/app_strings.dart';
+import '../../../theme/app_colors.dart';
 import '../../app_widgets/buttons.dart';
 
 class DurationIncrementController {
   ValueNotifier<Duration> currentDuration =
       ValueNotifier<Duration>(Duration(seconds: 45));
 
-  DurationIncrementController({Duration? duration}){
-    currentDuration =  ValueNotifier<Duration>(duration ?? Duration(seconds: 45));
+  DurationIncrementController({Duration? duration}) {
+    currentDuration =
+        ValueNotifier<Duration>(duration ?? Duration(seconds: 45));
   }
-
 }
 
 class DurationIncrementInput extends StatefulWidget {
@@ -44,25 +48,25 @@ class _DurationIncrementInputState extends State<DurationIncrementInput> {
       children: [
         Text(
           widget.title,
+          style: TextStyles().getInputsTitleStyle,
         ),
         SizedBox(
-          height:12,
+          height: 12,
         ),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color:Colors.white,
-            borderRadius:BorderRadius.circular(12),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
             boxShadow: [
+              ThemeDecorations().commonContainerBoxShadow(),
             ],
-            border: Border.all(
-            ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               NumberInputVerticalWithText(
-                  sideText: 'Strings.minutes',
+                  sideText: AppStrings.minutes,
                   dIC: widget.controller,
                   durationType: DurationType.minute,
                   updateDuration: updateDuration),
@@ -70,7 +74,7 @@ class _DurationIncrementInputState extends State<DurationIncrementInput> {
                 width: 12,
               ),
               NumberInputVerticalWithText(
-                sideText: 'Strings.seconds',
+                sideText: AppStrings.seconds,
                 dIC: widget.controller,
                 durationType: DurationType.seconds,
                 updateDuration: updateDuration,
@@ -110,17 +114,28 @@ class _NumberInputVerticalWithTextState
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+          decoration: BoxDecoration(
+            color: AppColors().getPrimaryColor,
+            borderRadius: BorderRadius.circular(100),
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               BtnIcon(
-                  onTap: () {
-                    widget.updateDuration(
-                        widget.durationType == DurationType.seconds ? 1 : 60);
-                  },
-                  icon: const RotatedBox(
-                      quarterTurns: 1,
-                      child: Icon(Icons.arrow_back_ios_sharp, size: 22))),
+                onTap: () {
+                  widget.updateDuration(
+                      widget.durationType == DurationType.seconds ? 1 : 60);
+                },
+                icon: const RotatedBox(
+                  quarterTurns: 1,
+                  child: Icon(
+                    Icons.arrow_back_ios_sharp,
+                    size: 22,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 4,
               ),
@@ -139,7 +154,11 @@ class _NumberInputVerticalWithTextState
                     widget.updateDuration(
                         widget.durationType == DurationType.seconds ? -1 : -60);
                   },
-                  icon: const Icon(Icons.arrow_forward_ios_sharp, size: 22),
+                  icon: const Icon(
+                    Icons.arrow_forward_ios_sharp,
+                    size: 22,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
@@ -150,7 +169,11 @@ class _NumberInputVerticalWithTextState
         ),
         Opacity(
             opacity: .5,
-            child: Text("${widget.sideText}",)),
+            child: Text(
+              "${widget.sideText}",
+              style: TextStyles().getRubikTextStyle(
+                  fontSize: 14, fontWeight: VFontWeight.w500),
+            )),
       ],
     );
   }

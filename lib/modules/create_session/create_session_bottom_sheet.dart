@@ -24,9 +24,7 @@ class _CreateSessionBottomSheetState extends State<CreateSessionBottomSheet> {
           '').format(DateTime.now())}');
 
   SessionDto sessionDto = sessions.first;
-
   ScrollController scrollController = ScrollController();
-
   bool showAddFloatingButton = false;
   GlobalKey key = GlobalKey();
 
@@ -54,7 +52,6 @@ class _CreateSessionBottomSheetState extends State<CreateSessionBottomSheet> {
         }
       },
     );
-
     super.initState();
   }
 
@@ -79,7 +76,7 @@ class _CreateSessionBottomSheetState extends State<CreateSessionBottomSheet> {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: DesignMetrics().getPageMargin),
+                      horizontal: DesignMetrics().getPageMargin,),
                   child: SessionItemsPreviewList(sessionDto: sessionDto),
                 ),
                 Padding(

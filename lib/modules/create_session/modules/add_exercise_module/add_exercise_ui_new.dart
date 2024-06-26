@@ -22,26 +22,47 @@ class AddExerciseUiNew extends StatefulWidget {
 }
 
 class _AddExerciseUiNewState extends State<AddExerciseUiNew> {
-  ///EXERCISE DATA HANDLER VARIABLES
+  ///Controllers
   late Debounce debounce;
   NumberIncrementController setsController = NumberIncrementController();
-  DurationIncrementController setDurationController =
-      DurationIncrementController();
-  DurationIncrementController breakDurationController =
-      DurationIncrementController();
-  TextEditingController textEditingController = TextEditingController();
+  DurationIncrementController setDurationController = DurationIncrementController();
+  DurationIncrementController breakDurationController = DurationIncrementController();
   TextEditingController textWeightController =
       TextEditingController(text: "10.0");
-  List<SetDto> repsPerSet = [
 
+
+  //static values
+  static SetDto setToAdd =  SetDto(setTotalDuration: const Duration(seconds: 45), reps: 12, setNo: 1, totalSets: 1, parentWorkoutName: '');
+
+  //Exercise workout states
+  List<SetDto> setsList = [
+    setToAdd
   ];
+  // List<WorkoutItem> setsAndBreaksList = []; //Will contain setDTO and BreakDTO //this the is complete set.
+
 
   @override
   void initState() {
+    ///==> On change of totalSets
+    setsController.addListener(() {
+      if(setsController.currentNumber > setsList.length){
+        setsList.add(setToAdd);
+      }
+    });
+    ///==> On Change of sets durations
+    setDurationController.currentDuration.addListener(() {
+        //updating the duration of each set in the sets list.
+        setsList.forEach((set) {
+          set.setTotalDuration = setDurationController.currentDuration.value;
+        });
+    });
+
+    ///==> On Change of break durations
+    breakDurationController.currentDuration.addListener(() {
+    });
+
     super.initState();
   }
-
-  List<dynamic> setsAndBreaksList = []; // will contain setDTO and BreakDTO
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +92,12 @@ class _AddExerciseUiNewState extends State<AddExerciseUiNew> {
                     ignoring: false,
                     child: Column(
                       children: [
+                        SizedBox(
+                          height: 24,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             NumberIncrementInput(
@@ -80,40 +105,40 @@ class _AddExerciseUiNewState extends State<AddExerciseUiNew> {
                               title: AppStrings.totalSets,
                               axis: Axis.horizontal,
                             ),
-                            SizedBox(
-                              width: 12,
+                            const SizedBox(
+                              width: 16,
                             ),
                             Flexible(
                               child: NumberTextInputWithIncrDcr(
                                 textEditingController: textWeightController,
                                 title: AppStrings.setsWeight,
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                hintText: "Weight",
+                                hintText: "weight",
                               ),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 12,
+                          height: 24,
                         ),
-                        RepsPerSetWidget(
+                        /*RepsPerSetWidget(
                           title: 'Strings.repsPerSet',
                           maxSelectedSets: setsController.currentNumber,
                           repsPerSet: repsPerSet,
                           setsController: setsController,
-                        ),
+                          ),*/
                         SizedBox(
                           height: 12,
                         ),
                         DurationIncrementInput(
                             controller: setDurationController,
-                            title: ' Strings.eachSetDuration'),
+                            title:AppStrings.eachSetDuration),
                         SizedBox(
-                          height: 12,
+                          height: 24,
                         ),
                         DurationIncrementInput(
                             controller: breakDurationController,
-                            title: 'Strings.eachBreakDuration'),
+                            title: AppStrings.eachBreakDuration),
                       ],
                     ),
                   ),
@@ -136,9 +161,9 @@ class _AddExerciseUiNewState extends State<AddExerciseUiNew> {
             SizedBox(
               height: 12,
             ),
-            PreciseCustomizationDropDown(
+  /*          PreciseCustomizationDropDown(
               setsAndBreaksList: setsAndBreaksList,
-            ),
+            ),*/
             SizedBox(
               height: 12,
             ),

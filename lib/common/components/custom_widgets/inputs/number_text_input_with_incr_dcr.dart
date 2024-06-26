@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:workout_genius/common/theme/app_colors.dart';
 import 'package:workout_genius/common/theme/design_metrics.dart';
 import 'package:workout_genius/common/theme/theme_decorations.dart';
 import 'dart:math' as math;
@@ -24,7 +25,6 @@ class NumberTextInputWithIncrDcr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 140,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
@@ -37,54 +37,80 @@ class NumberTextInputWithIncrDcr extends StatelessWidget {
             height: DesignMetrics().getTitleInputGap,
           ),
           Container(
+            padding: EdgeInsets.symmetric(horizontal: 11),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(40),
                 boxShadow: [
                   ThemeDecorations().commonContainerBoxShadow(),
                 ]),
-            padding: const EdgeInsets.all(.7),
-            child: TextFormField(
-              keyboardType: TextInputType.number,
-              controller: textEditingController,
-              inputFormatters: [
-                DecimalTextInputFormatter(
-                    decimalPointRange: 2, decimalRange: 3),
-              ],
-              decoration: const InputDecoration().copyWith(
-                suffixIcon: Column(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 64,
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: textEditingController,
+                    textAlign: TextAlign.center,
+                    inputFormatters: [
+                      DecimalTextInputFormatter(
+                          decimalPointRange: 2, decimalRange: 3),
+                    ],
+                    decoration: const InputDecoration().copyWith(
+                      contentPadding: EdgeInsets.symmetric(vertical: 16),
+                      hintText: hintText,
+                      enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: const OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     BtnIcon(
                       icon: const Icon(
-                        Icons.arrow_drop_up,
+                        Icons.arrow_back_ios_new,
                         size: 20,
+                        color: Colors.white,
+                      ),
+                      btnProperties: BtnProperties(
+                        backgroundColor: AppColors().getPrimaryColor,
                       ),
                       onTap: () {
-                        textEditingController.text = addToTextNumberAndRoundUp(
-                          number: textEditingController.text,
-                          addNumber: 0.5,
-                        );
-                      },
-                    ),
-                    BtnIcon(
-                      icon: const Icon(Icons.arrow_drop_down, size: 20),
-                      onTap: () {
-                        textEditingController.text = addToTextNumberAndRoundUp(
+                        textEditingController.text =
+                            addToTextNumberAndRoundUp(
                           number: textEditingController.text,
                           addNumber: -0.5,
                         );
                       },
                     ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    BtnIcon(
+                      icon: const Icon(
+                        Icons.arrow_forward_ios,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                      btnProperties: BtnProperties(
+                        backgroundColor: AppColors().getPrimaryColor,
+                      ),
+                      onTap: () {
+                        textEditingController.text =
+                            addToTextNumberAndRoundUp(
+                          number: textEditingController.text,
+                          addNumber: 0.5,
+                        );
+                      },
+                    ),
                   ],
-                ),
-                hintText: hintText,
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                ),
-              ),
+                )
+              ],
             ),
           ),
         ],

@@ -51,9 +51,7 @@ class _DurationIncrementInputState extends State<RepsPerSetWidget> {
       setNo = widget.maxSelectedSets;
     }
     currentSelectedSet = setNo;
-    currentRepsCount =
-        widget.repsPerSet.firstWhere((element) => element.setNo == setNo).reps;
-
+    currentRepsCount = widget.repsPerSet.firstWhere((element) => element.setNo == setNo).reps;
     setState(() {});
   }
 
