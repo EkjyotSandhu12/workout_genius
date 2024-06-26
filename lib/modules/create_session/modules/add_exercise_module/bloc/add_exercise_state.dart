@@ -1,4 +1,4 @@
-part of 'add_exercise_cubit.dart';
+part of 'add_exercise_bloc.dart';
 
 @immutable
 sealed class AddExerciseState {}

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workout_genius/common/app_values/app_strings.dart';
@@ -7,7 +8,7 @@ import 'package:workout_genius/common/theme/design_metrics.dart';
 import 'package:workout_genius/common/utils/utils.dart';
 import 'package:workout_genius/modules/create_session/widgets/add_button.dart';
 import 'package:workout_genius/modules/create_session/widgets/name_input_header.dart';
-import 'modules/add_exercise_module/add_exercise_ui_new.dart';
+import 'modules/add_exercise_module/add_exercise_ui_page.dart';
 import 'modules/session_item_preview_list/session_item_preview_list.dart';
 
 class CreateSessionBottomSheet extends StatefulWidget {
@@ -23,7 +24,7 @@ class _CreateSessionBottomSheetState extends State<CreateSessionBottomSheet> {
       text: 'Session ${DateFormat('dd-MMMM-hh:mm'
           '').format(DateTime.now())}');
 
-  SessionDto sessionDto = sessions.first;
+  SessionDto sessionDto = SessionDto();
   ScrollController scrollController = ScrollController();
   bool showAddFloatingButton = false;
   GlobalKey key = GlobalKey();
@@ -62,35 +63,45 @@ class _CreateSessionBottomSheetState extends State<CreateSessionBottomSheet> {
         Scaffold(
           floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
           floatingActionButton: showAddFloatingButton ? AddButton() : null,
-          body: SingleChildScrollView(
-            controller: scrollController,
-            child: Column(
-              children: [
-                NameInputHeaderAppBar(
-                  appBarText: AppStrings.createWorkoutSession,
-                  textFieldHintText: AppStrings.enterYourSessionName,
-                  textController: sessionNameController,
+          body: Column(
+            children: [
+              NameInputHeaderAppBar(
+                appBarText: AppStrings.createSession,
+                textFieldHintText: AppStrings.enterYourSessionName,
+                textController: sessionNameController,
+                appBarButton: AppBarButton(
+                  buttonText: 'Create',
+                  onTap: (){},
                 ),
-                SizedBox(
-                  height: DesignMetrics().getPageMargin,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  controller: scrollController,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: DesignMetrics().getPageMargin,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: DesignMetrics().getPageMargin,),
+                        child: SessionItemsPreviewList(sessionDto: sessionDto),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DotsVertical(),
+                      ),
+                      AddButton(
+                        key: key,
+                      ),
+                    ],
+                  ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: DesignMetrics().getPageMargin,),
-                  child: SessionItemsPreviewList(sessionDto: sessionDto),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: DotsVertical(),
-                ),
-                AddButton(
-                  key: key,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
-        AddExerciseUiNew(),
+        AddExerciseUiPage(),
       ],
     );
   }

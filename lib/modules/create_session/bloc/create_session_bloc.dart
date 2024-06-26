@@ -8,4 +8,11 @@ class CreateSessionBloc extends Cubit<CreateSessionState> {
   SessionDto sessionDto = SessionDto();
 
   CreateSessionBloc() : super(CreateSessionInitial());
+
+
+  createSession(SessionDto sessionDto){
+    sessions.add(sessionDto);
+    emit(CreateSessionSuccess());
+  }
+
 }

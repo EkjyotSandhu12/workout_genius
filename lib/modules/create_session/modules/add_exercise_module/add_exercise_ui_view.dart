@@ -1,8 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:workout_genius/common/components/app_widgets/buttons.dart';
 import 'package:workout_genius/common/components/custom_widgets/inputs/number_text_input_with_incr_dcr.dart';
+import 'package:workout_genius/common/services/loggy_service.dart';
+import 'package:workout_genius/modules/create_session/modules/add_exercise_module/bloc/add_exercise_bloc.dart';
 import 'package:workout_genius/modules/create_session/modules/add_exercise_module/widgets/reps_per_set_increment_input.dart';
 import '../../../../../../common/theme/text_styles.dart';
 import '../../../../common/app_values/app_strings.dart';
@@ -14,77 +18,60 @@ import '../../../../common/utils/debounce.dart';
 import '../../widgets/name_input_header.dart';
 import '../../widgets/precise_customization_drop_down.dart';
 
-class AddExerciseUiNew extends StatefulWidget {
-  const AddExerciseUiNew({
+class AddExerciseUiView extends StatefulWidget {
+  const AddExerciseUiView({
     super.key,
   });
 
   @override
-  State<AddExerciseUiNew> createState() => _AddExerciseUiNewState();
+  State<AddExerciseUiView> createState() => _AddExerciseUiViewState();
 }
 
-class _AddExerciseUiNewState extends State<AddExerciseUiNew> {
+class _AddExerciseUiViewState extends State<AddExerciseUiView> {
   ///==> Controllers
   late Debounce debounce;
+  TextEditingController exerciseNameController = TextEditingController();
   NumberIncrementController setsController = NumberIncrementController();
-  DurationIncrementController setDurationController =
-      DurationIncrementController();
-  DurationIncrementController breakDurationController =
-      DurationIncrementController();
-  TextEditingController textWeightController =
-      TextEditingController(text: "10.0");
-
-  ///==> static values
- static getSetObject(int setNo){
-    return  SetDto(
-      setTotalDuration: const Duration(seconds: 45),
-      reps: 12,
-      setNo: setNo,);
-  }
-
-  ///==> Exercise workout states
-  List<SetDto> setsList = [getSetObject(1)];
-
+  DurationIncrementController setDurationController = DurationIncrementController();
+  DurationIncrementController breakDurationController = DurationIncrementController();
+  TextEditingController textWeightController = TextEditingController(text: "10.0");
   // List<WorkoutItem> setsAndBreaksList = []; //Will contain setDTO and BreakDTO //this the is complete set.
 
   @override
   void initState() {
+    AddExerciseBloc addExerciseBloc = context.read<AddExerciseBloc>();
+
     ///==> On change of totalSets
     setsController.addListener(() {
-      if (setsController.currentNumber > setsList.length) {
-        setsList.add(getSetObject(setsController.currentNumber));
-      }
-      setState(() {});
+      addExerciseBloc.add(TotalSetsUpdated(updatedTotalSets: setsController.currentNumber));
     });
 
     ///==> On Change of sets durations
     setDurationController.currentDuration.addListener(() {
       //updating the duration of each set in the sets list.
-      setsList.forEach((set) {
-        set.setTotalDuration = setDurationController.currentDuration.value;
-      });
+      addExerciseBloc.add(SetsDurationChanged(setsDuration: setDurationController.currentDuration.value));
     });
 
     ///==> On Change of break durations
     breakDurationController.currentDuration.addListener(() {});
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    AddExerciseBloc addExerciseBloc = context.watch<AddExerciseBloc>();
     return Scaffold(
       body: Column(
         children: [
           NameInputHeaderAppBar(
             appBarText: AppStrings.addExercise,
             textFieldHintText:
-            "${AppStrings.enterExerciseName} (ex: Push ups/Crunches.....)",
-            textController: TextEditingController(),
-            appBarButton: AppBarButton(buttonText: AppStrings.addWorkout, onTap: () {
-
-            }),
+                "${AppStrings.enterExerciseName} (ex: Push ups/Crunches.....)",
+            textController: exerciseNameController,
+            appBarButton:
+                AppBarButton(buttonText: AppStrings.addWorkout, onTap: () {}),
           ),
-
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -128,7 +115,7 @@ class _AddExerciseUiNewState extends State<AddExerciseUiNew> {
                                 RepsPerSetWidget(
                                   title: AppStrings.repsPerSet,
                                   maxSelectedSets: setsController.currentNumber,
-                                  repsPerSet: setsList,
+                                  repsPerSet: addExerciseBloc.setsList,
                                   setsController: setsController,
                                 ),
                                 const SizedBox(
@@ -136,19 +123,20 @@ class _AddExerciseUiNewState extends State<AddExerciseUiNew> {
                                 ),
                                 DurationIncrementInput(
                                     controller: setDurationController,
-                                    title: AppStrings.eachSetDuration),
+                                    title: AppStrings.eachSetDuration,),
                                 const SizedBox(
                                   height: 24,
                                 ),
                                 DurationIncrementInput(
-                                    controller: breakDurationController,
-                                    title: AppStrings.eachBreakDuration,),
+                                  controller: breakDurationController,
+                                  title: AppStrings.eachBreakDuration,
+                                ),
                               ],
                             ),
                           ),
                         ),
-            
-                        /* f (lockGlobalCustomization)
+
+                        /* if (lockGlobalCustomization)
                           BoldDescriptionWithButton(
                             onTap: () {
                               setState(() {

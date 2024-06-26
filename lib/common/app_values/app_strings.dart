@@ -38,6 +38,7 @@ class AppStrings {
   static String addWorkout = "Add Workout";
   static String addMore = "Add more";
   static String createWorkoutSession = "Create workout session";
+  static String createSession = "Create session";
   static String addExercise = "Add Exercise";
   static String addSupersetExercise = "Add Superset Exercise";
   static String addBreak = "Add Break";
