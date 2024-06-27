@@ -5,11 +5,13 @@ class BtnProperties {
   Size? size;
   double? textSize;
   Color? backgroundColor;
+  Color? textColor;
 
   BtnProperties({
     this.size,
     this.textSize,
     this.backgroundColor,
+    this.textColor,
   });
 }
 
@@ -38,9 +40,10 @@ class BtnElevated extends StatelessWidget {
       ),
       child: Text(
         buttonText,
+        maxLines: 1,
         style: TextStyle(
             fontSize: btnProperties?.textSize,
-            color: AppColors().getOnPrimaryColor),
+            color: btnProperties?.textColor??AppColors().getOnPrimaryColor),
       ),
     );
   }

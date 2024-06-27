@@ -15,6 +15,7 @@ import '../../../../common/components/custom_widgets/inputs/minutes_sec_incremen
 import '../../../../common/components/custom_widgets/inputs/number_increment_input.dart';
 import '../../../../common/components/custom_widgets/inputs/text_field_with_title.dart';
 import '../../../../common/utils/debounce.dart';
+import '../../bloc/create_session_bloc.dart';
 import '../../widgets/name_input_header.dart';
 import '../../widgets/precise_customization_drop_down.dart';
 
@@ -32,45 +33,71 @@ class _AddExerciseUiViewState extends State<AddExerciseUiView> {
   late Debounce debounce;
   TextEditingController exerciseNameController = TextEditingController();
   NumberIncrementController setsController = NumberIncrementController();
-  DurationIncrementController setDurationController = DurationIncrementController();
-  DurationIncrementController breakDurationController = DurationIncrementController();
-  TextEditingController textWeightController = TextEditingController(text: "10.0");
+  DurationIncrementController setDurationController =
+      DurationIncrementController();
+  DurationIncrementController breakDurationController =
+      DurationIncrementController();
+  TextEditingController textWeightController =
+      TextEditingController(text: "10.0");
+
   // List<WorkoutItem> setsAndBreaksList = []; //Will contain setDTO and BreakDTO //this the is complete set.
 
   @override
   void initState() {
     AddExerciseBloc addExerciseBloc = context.read<AddExerciseBloc>();
 
+    addExerciseBloc.stream.listen((event) { 
+      if(event is AddExerciseSuccessState){
+        myLog.infoLog('Exercises Added');
+      }
+    });
+    
     ///==> On change of totalSets
     setsController.addListener(() {
-      addExerciseBloc.add(TotalSetsUpdated(updatedTotalSets: setsController.currentNumber));
+      addExerciseBloc.add(TotalSetsUpdatedEvent(
+          updatedTotalSets: setsController.currentNumber));
     });
 
     ///==> On Change of sets durations
     setDurationController.currentDuration.addListener(() {
       //updating the duration of each set in the sets list.
-      addExerciseBloc.add(SetsDurationChanged(setsDuration: setDurationController.currentDuration.value));
+      addExerciseBloc.add(SetsDurationChangedEvent(
+          setsDuration: setDurationController.currentDuration.value));
     });
 
     ///==> On Change of break durations
-    breakDurationController.currentDuration.addListener(() {});
+    breakDurationController.currentDuration.addListener(() {
+      addExerciseBloc.add(BreakDurationChangedEvent(
+          breakDuration: breakDurationController.currentDuration.value));
+    });
 
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    
     AddExerciseBloc addExerciseBloc = context.watch<AddExerciseBloc>();
+    
     return Scaffold(
       body: Column(
         children: [
           NameInputHeaderAppBar(
             appBarText: AppStrings.addExercise,
             textFieldHintText:
-                "${AppStrings.enterExerciseName} (ex: Push ups/Crunches.....)",
+                "${AppStrings.enterExerciseName} (ex: Push ups/Crunches...)",
             textController: exerciseNameController,
-            appBarButton:
-                AppBarButton(buttonText: AppStrings.addWorkout, onTap: () {}),
+            appBarButton: AppBarButton(
+              buttonText: AppStrings.addWorkout,
+              onTap: () {
+                SessionDto currentSessionObject =
+                    context.read<CreateSessionBloc>().sessionInCreation;
+                addExerciseBloc.add(
+                  OnExercisesCreatedEvent(
+                      sessionBeingCreated: currentSessionObject),
+                );
+              },
+            ),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -92,7 +119,8 @@ class _AddExerciseUiViewState extends State<AddExerciseUiView> {
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
@@ -102,9 +130,11 @@ class _AddExerciseUiViewState extends State<AddExerciseUiView> {
                                       axis: Axis.horizontal,
                                     ),
                                     NumberTextInputWithIncrDcr(
-                                      textEditingController: textWeightController,
+                                      textEditingController:
+                                          textWeightController,
                                       title: AppStrings.eachSetsWeight,
-                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       hintText: "weight",
                                     ),
                                   ],
@@ -122,8 +152,9 @@ class _AddExerciseUiViewState extends State<AddExerciseUiView> {
                                   height: 24,
                                 ),
                                 DurationIncrementInput(
-                                    controller: setDurationController,
-                                    title: AppStrings.eachSetDuration,),
+                                  controller: setDurationController,
+                                  title: AppStrings.eachSetDuration,
+                                ),
                                 const SizedBox(
                                   height: 24,
                                 ),

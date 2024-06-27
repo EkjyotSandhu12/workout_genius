@@ -45,4 +45,5 @@ class AppStrings {
   static String add = "Add";
   static String unlockModifications = "Unlock Modifications";
   static String cancel = "Cancel";
+  static String create = "Create";
 }

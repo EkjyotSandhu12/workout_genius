@@ -9,7 +9,6 @@ class Helper {
 
   static Duration calculateTotalDurationOfTheSession(SessionDto session) {
     Duration duration = Duration.zero;
-
     for (var element in session.sessionExercises!) {
       if (element is BreakDto) {
         duration += element.breakTotalDuration;
@@ -23,7 +22,6 @@ class Helper {
         }
       }
     }
-
     return duration;
   }
 

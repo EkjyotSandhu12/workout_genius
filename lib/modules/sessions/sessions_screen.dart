@@ -16,7 +16,7 @@ class SessionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      floatingActionButton: CreateSessionButton(),
+      floatingActionButton: const CreateSessionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       appBar: AppBar(
         title: const Text('Your workout sessions'),
